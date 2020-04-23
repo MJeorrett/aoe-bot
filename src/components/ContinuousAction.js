@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import constants from '../constants';
 
-const Action = ({
+const ContinuousAction = ({
   action,
   setTime,
 }) => {
@@ -47,4 +47,4 @@ const Action = ({
   );
 };
 
-export default Action;
+export default ContinuousAction;
