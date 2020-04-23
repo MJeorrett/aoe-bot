@@ -1,8 +1,18 @@
 import React from 'react';
+import TownCenter from './components/TownCenter';
+import Villager from './components/Villager';
+import Resources from './components/Resources';
 
 function App() {
   return (
-    <h1>Age of Empires Build Order Tool</h1>
+    <div>
+      <h1>Age of Empires Build Order Tool</h1>
+      <Resources />
+      <TownCenter />
+      <Villager />
+      <Villager />
+      <Villager />
+    </div>
   );
 }
 
