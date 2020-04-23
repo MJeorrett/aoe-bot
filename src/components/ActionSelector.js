@@ -19,7 +19,7 @@ const ActionSelector = ({
   };
 
   return (
-    <select value={selectedAction} onChange={handleSelect}>
+    <select value={selectedAction} onChange={handleSelect} tabIndex="-1">
       <option value="" disabled>Add action</option>
       {actions.map(action => (
         <option key={action.key} value={action.key}>{action.name}</option>
