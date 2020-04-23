@@ -1,8 +1,6 @@
 import React from 'react';
 
-import constants from '../constants';
-
-import './Timeline.css';
+import TimeSlice from './TimeSlice';
 
 const Timeline = ({
   time,
@@ -13,26 +11,14 @@ const Timeline = ({
   for (let i = 1; i <= 500; i++) {
     times.push(i);
   }
-  const baseStyles = {
-    cursor: 'pointer',
-    minWidth: `${constants.secondWidth}px`,
-    height: '35px',
-    borderLeft: '0.5px solid dodgerblue',
-    borderTop: '0.5px solid dodgerblue',
-    borderBottom: '0.5px solid dodgerblue',
-  };
+  
   times.forEach((t) => {
     timeSlices.push(
-      <div
-        className="timeslot"
-        onClick={() => setTime(t)}
-        style={t === time ?
-          {
-            ...baseStyles,
-            backgroundColor: 'blue',
-          } :
-          baseStyles
-        }
+      <TimeSlice
+        key={t}
+        time={t}
+        isSelected={time === t}
+        setTime={setTime}
       />
     );
   });
