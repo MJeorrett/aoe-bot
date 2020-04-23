@@ -25,7 +25,7 @@ const selectResourcesByTime = createSelector(
         if (action.isContinuous) {
           foodIncrement += action.food;
           actionEnds.push({
-            foodIncrement: -action.food,
+            foodIncrement: action.food,
             timeOffset: action.timeOffset + action.time,
           });
         }
@@ -40,7 +40,8 @@ const selectResourcesByTime = createSelector(
         actionEnds.length > 0 &&
         actionEnds[0].timeOffset === timeOffset
       ) {
-        actionEnds.shift();
+        const actionEnd = actionEnds.shift();
+        foodIncrement -= actionEnd.foodIncrement;
       }
 
       currentFood += foodIncrement;
