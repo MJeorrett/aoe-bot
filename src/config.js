@@ -19,11 +19,15 @@ export const actions = {
 
 export const units = {
   [unitKeys.townCenter]: {
+    key: unitKeys.townCenter,
+    name: 'Town Center',
     actions: [
       actionKeys.createVillager,
     ]
   },
   [unitKeys.villager] : {
-
+    key: unitKeys.villager,
+    name: 'Villager',
+    actions: []
   },
 };
