@@ -17,7 +17,7 @@ const ActionSelector = ({
 
   return (
     <select value={selectedAction} onChange={handleSelect}>
-      <option value="" disabled>-- Please Select --</option>
+      <option value="" disabled>Add action</option>
       {actions.map(action => (
         <option key={action.key} value={action.key}>{action.name}</option>
       ))}
