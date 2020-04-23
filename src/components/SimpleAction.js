@@ -3,7 +3,7 @@ import React from 'react';
 import constants from '../constants';
 import * as config from '../config';
 
-const Action = ({
+const SimpleAction = ({
   action: {
     type: actionType,
     timeOffset,
@@ -32,4 +32,4 @@ const Action = ({
   );
 };
 
-export default Action;
+export default SimpleAction;

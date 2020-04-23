@@ -9,12 +9,11 @@ import Unit from './Unit';
 
 const mapStateToProps = () => {
   const selectUnitById = selectors.units.makeSelectById();
-  const selectActionsForUnit = selectors.actions.makeSelectActionsForUnit();
+  const selectActionIdsForUnit = selectors.actions.makeSelectActionIdsForUnit();
   
   return (state, { id }) => ({
     unit: selectUnitById(state, id),
-    // TODO: Should be actionIds
-    actions: selectActionsForUnit(state, id),
+    actionIds: selectActionIdsForUnit(state, id),
   });
 };
 

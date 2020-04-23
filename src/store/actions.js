@@ -49,16 +49,22 @@ export const actions = {
 const selectActionsState = state => state[slice.name];
 
 export const selectors = {
-  makeSelectActionsForUnit: () => createSelector(
+  allIds: createSelector(
+    selectActionsState,
+    state => state.ids,
+  ),
+  makeSelectActionIdsForUnit: () => createSelector(
     selectActionsState,
     (_, unitId) => unitId,
-    (state, unitId) => {
-      const actionIds = state.unitActions[unitId] || [];
-      return actionIds.map(actionId => ({
-        ...state.items[actionId],
-        timeOffset: state.actionTimeOffsets[actionId],
-      }));
-    },
+    (state, unitId) => state.unitActions[unitId] || [],
+  ),
+  makeSelectActionById: () => createSelector(
+    selectActionsState,
+    (_, actionId) => actionId,
+    (state, actionId) => ({
+      ...state.items[actionId],
+      timeOffset: state.actionTimeOffsets[actionId],
+    }),
   ),
   all: createSelector(
     selectActionsState,
