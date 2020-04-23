@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import constants from '../constants';
 
@@ -6,6 +6,8 @@ const Action = ({
   action,
   setTime,
 }) => {
+  const [cachedTime, setCachedTime] = useState(action.time);
+
   return (
     <div style={{
       border: '0.5px solid green',
@@ -36,8 +38,9 @@ const Action = ({
           min="10"
           max="1000"
           step="1"
-          value={action.time}
-          onChange={(event) => setTime(parseInt(event.target.value))}
+          value={cachedTime}
+          onChange={event => setCachedTime(event.target.time)}
+          onBlur={event => setTime(parseInt(event.target.value))}
         />
       </label>
     </div>
