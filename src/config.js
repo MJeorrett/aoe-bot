@@ -1,6 +1,7 @@
 // TODO: Change unitKeys -> unitTypes.
 export const unitKeys = {
   townCenter: 'townCenter',
+  barracks: 'barracks',
   villager: 'villager',
 };
 
@@ -9,6 +10,7 @@ export const actionKeys = {
   idle: 'idle',
   createVillager: 'createVillager',
   forage: 'forage',
+  buildBarracks: 'buildBarracks',
 };
 
 export const actions = {
@@ -26,24 +28,32 @@ export const actions = {
     name: 'Forage',
     isContinuous: true,
     food: 0.31,
-  }
+  },
+  [actionKeys.buildBarracks]: {
+    name: 'Build Barracks',
+    time: 50,
+    wood: -175,
+    produces: unitKeys.barracks,
+  },
 };
 
 export const units = {
   [unitKeys.townCenter]: {
-    key: unitKeys.townCenter,
     name: 'Town Center',
     actions: [
       actionKeys.idle,
       actionKeys.createVillager,
     ]
   },
-  [unitKeys.villager] : {
-    key: unitKeys.villager,
+  [unitKeys.barracks]: {
+    name: 'Barracks',
+  },
+  [unitKeys.villager]: {
     name: 'Villager',
     actions: [
       actionKeys.idle,
       actionKeys.forage,
+      actionKeys.buildBarracks,
     ]
   },
 };

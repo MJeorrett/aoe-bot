@@ -13,6 +13,7 @@ export const createAction = (key) => {
     time: action.isContinuous ? 25 : action.time,
     isContinuous: !!action.isContinuous,
     food: action.food || 0,
+    wood: action.wood || 0,
   };
 };
 

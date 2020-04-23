@@ -8,8 +8,11 @@ const selectResourcesByTime = createSelector(
   actionsSlice.selectors.all,
   unsortedActions => {
     const actions = unsortedActions.sort((a, b) => a.timeOffset - b.timeOffset);
+    // TODO: Put starting values in constants.
     let currentFood = 200;
+    let currentWood = 200;
     let foodIncrement = 0;
+    let woodIncrement = 0;
     let timeOffset = 0;
     const actionEnds = [];
 
@@ -34,6 +37,18 @@ const selectResourcesByTime = createSelector(
             currentFood += action.food;
           }
         }
+        if (action.wood) {
+          if (action.isContinuous) {
+            woodIncrement += action.wood;
+            actionEnds.push({
+              woodIncrement: action.wood,
+              timeOffset: action.timeOffset + action.time,
+            });
+          }
+          else {
+            currentWood += action.wood;
+          }
+        }
       }
 
       actionEnds.sort((a, b) => a.timeOffset - b.timeOffset);
@@ -44,11 +59,15 @@ const selectResourcesByTime = createSelector(
       ) {
         const actionEnd = actionEnds.shift();
         foodIncrement -= actionEnd.foodIncrement;
+        woodIncrement -= actionEnd.woodIncrement;
       }
 
       currentFood += foodIncrement;
+      currentWood += woodIncrement;
+
       resourcesByTime[timeOffset] = {
         food: Math.floor(currentFood),
+        wood: Math.floor(currentWood),
       };
 
       timeOffset++;

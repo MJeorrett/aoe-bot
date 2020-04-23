@@ -7,7 +7,8 @@ const ActionSelector = ({
   onSelect,
 }) => {
   const [selectedAction, setSelectedAction] = useState('');
-  const actions = config.units[unit].actions
+  const actionKeys = config.units[unit].actions || [];
+  const actions = actionKeys
     .map(actionKey => ({
       key: actionKey,
       name: config.actions[actionKey].name,
