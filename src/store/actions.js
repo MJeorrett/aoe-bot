@@ -5,6 +5,7 @@ const slice = createSlice({
   initialState: {
     ids: [],
     items: {},
+    actionTimeOffsets: {},
     unitActions: {},
   },
   reducers: {
@@ -13,9 +14,14 @@ const slice = createSlice({
       state.items[action.id] = action;
 
       if (state.unitActions[unitId]) {
+        const unitActions = state.unitActions[unitId];
+        const previousActionId = unitActions[unitActions.length - 1];
+        const previousAction = state.items[previousActionId];
+        state.actionTimeOffsets[action.id] = state.actionTimeOffsets[previousActionId] + previousAction.time;
         state.unitActions[unitId].push(action.id);
       }
       else {
+        state.actionTimeOffsets[action.id] = 0;
         state.unitActions[unitId] = [action.id];
       }
     },
@@ -37,35 +43,28 @@ export const actions = {
 
 const selectActionsState = state => state[slice.name];
 
-const addTimeOffsetToActions = (state, actionIds) => {
-  let timeOffset = 0;
-  return actionIds.map(actionId => {
-    const action = {
-      timeOffset,
-      ...state.items[actionId]
-    };
-    timeOffset += state.items[actionId].time;
-    return action;
-  });
-}
-
 export const selectors = {
   makeSelectActionsForUnit: () => createSelector(
     selectActionsState,
     (_, unitId) => unitId,
     (state, unitId) => {
       const actionIds = state.unitActions[unitId] || [];
-      return addTimeOffsetToActions(state, actionIds);
+      return actionIds.map(actionId => ({
+        ...state.items[actionId],
+        timeOffset: state.actionTimeOffsets[actionId],
+      }));
     },
   ),
   all: createSelector(
     selectActionsState,
     state => {
       const result = [];
-      Object.keys(state.unitActions).forEach(unitId => {
-        addTimeOffsetToActions(state, state.unitActions[unitId])
-          .forEach(action => result.push(action));
-      });
+      Object.keys(state.unitActions).forEach(unitId => (
+        state.unitActions[unitId].map(actionId => ({
+          ...state.items[actionId],
+          timeOffset: state.actionTimeOffsets[actionId],
+        }))
+      ));
       return result;
     },
   ),
