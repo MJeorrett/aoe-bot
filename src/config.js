@@ -5,7 +5,7 @@ export const unitKeys = {
 };
 
 // TODO: Change actionKeys -> actionTypes.
-const actionKeys = {
+export const actionKeys = {
   idle: 'idle',
   createVillager: 'createVillager',
   forage: 'forage',

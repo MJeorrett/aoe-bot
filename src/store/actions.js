@@ -24,6 +24,11 @@ const slice = createSlice({
         state.actionTimeOffsets[action.id] = 0;
         state.unitActions[unitId] = [action.id];
       }
+
+      if (action.parentActionId) {
+        const parentAction = state.items[action.parentActionId];
+        state.items[action.id].time = state.actionTimeOffsets[parentAction.id] + parentAction.time;
+      }
     },
     setTime: (state, { payload: { id, newTime } }) => {
       state.items[id].time = newTime;
@@ -60,10 +65,12 @@ export const selectors = {
     state => {
       const result = [];
       Object.keys(state.unitActions).forEach(unitId => (
-        state.unitActions[unitId].map(actionId => ({
-          ...state.items[actionId],
-          timeOffset: state.actionTimeOffsets[actionId],
-        }))
+        state.unitActions[unitId].forEach(actionId => {
+          result.push({
+            ...state.items[actionId],
+            timeOffset: state.actionTimeOffsets[actionId],
+          })
+        })
       ));
       return result;
     },
