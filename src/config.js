@@ -10,6 +10,7 @@ export const actionKeys = {
   idle: 'idle',
   createVillager: 'createVillager',
   forage: 'forage',
+  lumberjack: 'lumberjack',
   buildBarracks: 'buildBarracks',
 };
 
@@ -28,6 +29,11 @@ export const actions = {
     name: 'Forage',
     isContinuous: true,
     food: 0.31,
+  },
+  [actionKeys.lumberjack]: {
+    name: 'Lumberjack',
+    isContinuous: true,
+    wood: 0.39,
   },
   [actionKeys.buildBarracks]: {
     name: 'Build Barracks',
@@ -53,7 +59,8 @@ export const units = {
     actions: [
       actionKeys.idle,
       actionKeys.forage,
+      actionKeys.lumberjack,
       actionKeys.buildBarracks,
-    ]
+    ],
   },
 };
