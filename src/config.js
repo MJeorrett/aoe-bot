@@ -5,21 +5,24 @@ export const unitKeys = {
 };
 
 // TODO: Change actionKeys -> actionTypes.
-export const actionKeys = {
+const actionKeys = {
+  idle: 'idle',
   createVillager: 'createVillager',
   forage: 'forage',
-}
+};
 
 export const actions = {
+  [actionKeys.idle]: {
+    name: 'Idle',
+    isContinuous: true,
+  },
   [actionKeys.createVillager]: {
-    key: actionKeys.createVillager,
     name: 'Create Villager',
     time: 25,
     food: 50,
     produces: unitKeys.villager,
   },
   [actionKeys.forage]: {
-    key: actionKeys.forage,
     name: 'Forage',
     isContinuous: true,
   }
@@ -30,6 +33,7 @@ export const units = {
     key: unitKeys.townCenter,
     name: 'Town Center',
     actions: [
+      actionKeys.idle,
       actionKeys.createVillager,
     ]
   },
@@ -37,6 +41,7 @@ export const units = {
     key: unitKeys.villager,
     name: 'Villager',
     actions: [
+      actionKeys.idle,
       actionKeys.forage,
     ]
   },

@@ -8,7 +8,10 @@ const ActionSelector = ({
 }) => {
   const [selectedAction, setSelectedAction] = useState('');
   const actions = config.units[unit].actions
-    .map(actionName => config.actions[actionName]);
+    .map(actionKey => ({
+      key: actionKey,
+      name: config.actions[actionKey].name,
+    }));
 
   const handleSelect = event => {
     onSelect(event.target.value);
