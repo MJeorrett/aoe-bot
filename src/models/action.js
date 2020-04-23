@@ -1,6 +1,8 @@
 import generateId from '../utils/generateId';
 import * as config from '../config';
 
+export const placeholderActionType = 'null';
+
 export const createAction = (key) => {
   const action = config.actions[key];
 
@@ -13,3 +15,10 @@ export const createAction = (key) => {
     food: action.food || 0,
   };
 };
+
+export const createPlaceholderAction = parentActionId => ({
+  id: generateId(),
+  type: placeholderActionType,
+  time: 10, // set by reducer,
+  parentActionId,
+})

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { selectors, actions } from '../store';
-import { createAction } from '../models/action';
+import { createAction, createPlaceholderAction } from '../models/action';
 import { createUnit } from '../models/unit';
 import * as config from '../config';
 
@@ -13,6 +13,7 @@ const mapStateToProps = () => {
   
   return (state, { id }) => ({
     unit: selectUnitById(state, id),
+    // TODO: Should be actionIds
     actions: selectActionsForUnit(state, id),
   });
 };
@@ -26,11 +27,8 @@ const mapDispatchToProps = (dispatch, { id }) => ({
     if (producedUnitKey) {
       const newUnit = createUnit(producedUnitKey, newAction.id);
       dispatch(actions.units.add(newUnit));
-      const newPaddingAction = {
-        ...createAction(config.actionKeys.idle),
-        parentActionId: newAction.id,
-      };
-      dispatch(actions.actions.add(newUnit.id, newPaddingAction));
+      const placeholderAction = createPlaceholderAction(newAction.id);
+      dispatch(actions.actions.add(newUnit.id, placeholderAction));
     }
   },
 });

@@ -22,15 +22,17 @@ const selectResourcesByTime = createSelector(
       ) {
         const action = actions.shift();
 
-        if (action.isContinuous) {
-          foodIncrement += action.food;
-          actionEnds.push({
-            foodIncrement: action.food,
-            timeOffset: action.timeOffset + action.time,
-          });
-        }
-        else {
-          currentFood += action.food;
+        if (action.food) {
+          if (action.isContinuous) {
+            foodIncrement += action.food;
+            actionEnds.push({
+              foodIncrement: action.food,
+              timeOffset: action.timeOffset + action.time,
+            });
+          }
+          else {
+            currentFood += action.food;
+          }
         }
       }
 

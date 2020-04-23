@@ -1,8 +1,19 @@
 import React from 'react';
 
+import { placeholderActionType } from '../models/action';
+
 import Action from './Action';
 import ContinousActionContainer from './ContinuousActionContainer';
+import PlaceholderAction from './PlaceholderAction';
 import ActionSelector from './ActionSelector';
+
+const renderAction = action => {
+  if (action.type === placeholderActionType) return <PlaceholderAction action={action} />;
+  
+  if (action.isContinuous) return <ContinousActionContainer key={action.id} action={action} />;
+
+  return <Action key={action.id} action={action} />;
+}
 
 const Unit = ({
   unit,
@@ -20,11 +31,7 @@ const Unit = ({
         margin: 0,
         backgroundColor: 'lightGrey',
       }}>{unit.name}</h3>
-      {actions.map(a => (
-        a.isContinuous ?
-          <ContinousActionContainer key={a.id} action={a} /> :
-          <Action key={a.id} action={a} />)
-      )}
+      {actions.map(renderAction)}
       <ActionSelector unit={unit.key} onSelect={addAction} />
     </div>
   );
