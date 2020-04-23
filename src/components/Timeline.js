@@ -34,7 +34,7 @@ const Timeline = ({
         height: '35px',
         backgroundColor: 'lightBlue'
       }}>
-        Timeline:
+        {`Timeline (${time ? time : '-'})`}
       </h3>
       {timeSlices}
     </div>
