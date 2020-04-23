@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { secondWidth } from '../constants';
+import constants from '../constants';
 
 const Action = ({
   title,
@@ -8,11 +8,10 @@ const Action = ({
 }) => {
   return (
     <h4 style={{
-      fontSize: '14px',
       margin: 0,
       border: '1px solid lightgreen',
-      minWidth: `${time * secondWidth}px`,
-      maxWidth: `${time * secondWidth}px`,
+      minWidth: `${time * constants.secondWidth}px`,
+      maxWidth: `${time * constants.secondWidth}px`,
     }}>{title}</h4>
   );
 };

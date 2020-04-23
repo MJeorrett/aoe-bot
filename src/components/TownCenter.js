@@ -6,7 +6,7 @@ import Action from './Action';
 const TownCenter = () => {
   return (
     <Unit title="Town Center">
-      <Action title="Create Villager" time={21} />
+      <Action title="Create Villager" time={25} />
     </Unit>
   );
 };

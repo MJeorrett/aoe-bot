@@ -1,12 +1,16 @@
 import React from 'react';
+
 import repeat from '../utils/repeat';
+import constants from '../constants';
 
 const Timeline = () => {
   const timeSlices = [];
   repeat(500, () => timeSlices.push(<div style={{
-    minWidth: '5px',
+    minWidth: `${constants.secondWidth}px`,
     height: '35px',
-    border: '0.5px solid dodgerblue'
+    borderLeft: '0.5px solid dodgerblue',
+    borderTop: '0.5px solid dodgerblue',
+    borderBottom: '0.5px solid dodgerblue',
   }} />));
 
   return (

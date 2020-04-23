@@ -1,1 +1,3 @@
-export const secondWidth = 5;
+export default {
+  secondWidth: 5,
+};
