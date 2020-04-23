@@ -3,7 +3,7 @@ import { createSlice, createSelector } from '@reduxjs/toolkit';
 const slice = createSlice({
   name: 'timeline',
   initialState: {
-    time: null,
+    time: 1,
   },
   reducers: {
     setTime: (state, { payload: { newTime } }) => {
