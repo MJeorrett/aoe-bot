@@ -1,20 +1,40 @@
 import React from 'react';
 
-import repeat from '../utils/repeat';
 import constants from '../constants';
 
-const Timeline = () => {
+import './Timeline.css';
+
+const Timeline = ({
+  time,
+  setTime,
+}) => {
   const timeSlices = [];
-  let key = 0;
-  repeat(500, () => {
-    timeSlices.push(<div key={key} style={{
-      minWidth: `${constants.secondWidth}px`,
-      height: '35px',
-      borderLeft: '0.5px solid dodgerblue',
-      borderTop: '0.5px solid dodgerblue',
-      borderBottom: '0.5px solid dodgerblue',
-    }} />);
-    key++;
+  const times = [];
+  for (let i = 1; i <= 500; i++) {
+    times.push(i);
+  }
+  const baseStyles = {
+    cursor: 'pointer',
+    minWidth: `${constants.secondWidth}px`,
+    height: '35px',
+    borderLeft: '0.5px solid dodgerblue',
+    borderTop: '0.5px solid dodgerblue',
+    borderBottom: '0.5px solid dodgerblue',
+  };
+  times.forEach((t) => {
+    timeSlices.push(
+      <div
+        className="timeslot"
+        onClick={() => setTime(t)}
+        style={t === time ?
+          {
+            ...baseStyles,
+            backgroundColor: 'blue',
+          } :
+          baseStyles
+        }
+      />
+    );
   });
 
   return (
