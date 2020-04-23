@@ -1,8 +1,12 @@
 import React from 'react';
 
+import Action from './Action';
+import ActionSelector from './ActionSelector';
+
 const Unit = ({
-  title,
-  children,
+  unit,
+  actions,
+  addAction,
 }) => {
   return (
     <div style={{
@@ -14,8 +18,9 @@ const Unit = ({
         height: '35px',
         margin: 0,
         backgroundColor: 'lightGrey',
-      }}>{title}</h3>
-      {children}
+      }}>{unit.name}</h3>
+      {actions.map(a => <Action key={a.id} action={a} />)}
+      <ActionSelector unit={unit.key} onSelect={addAction} />
     </div>
   );
 };

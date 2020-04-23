@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Unit from './Unit';
+import UnitContainer from './UnitContainer';
 
 const Units = ({
-  units,
+  unitIds,
 }) => {
   return (
-    units.map(u => (
-      <Unit key={u.id} title={u.name} />
+    unitIds.map(id => (
+      <UnitContainer key={id} id={id} />
     ))
   );
 };

@@ -45,8 +45,13 @@ export const actions = {
 const selectUnitsState = state => state[slice.name];
 
 export const selectors = {
-  all: createSelector(
+  allIds: createSelector(
     selectUnitsState,
-    state => state.ids.map(id => state.items[id]),
+    state => state.ids,
+  ),
+  makeSelectById: () => createSelector(
+    selectUnitsState,
+    (_, id) => id,
+    (state, id) => state.items[id],
   ),
 };

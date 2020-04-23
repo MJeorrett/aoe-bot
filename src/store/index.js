@@ -1,19 +1,23 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import * as units from './units';
+import * as unitsSlice from './units';
+import * as actionsSlice from './actions';
 
 const store = configureStore({
   reducer: {
-    units: units.reducer,
+    units: unitsSlice.reducer,
+    actions: actionsSlice.reducer,
   },
 });
 
 export const actions = {
-  units: units.actions,
+  units: unitsSlice.actions,
+  actions: actionsSlice.actions,
 };
 
 export const selectors = {
-  units: units.selectors,
+  units: unitsSlice.selectors,
+  actions: actionsSlice.selectors,
 };
 
 export default store;

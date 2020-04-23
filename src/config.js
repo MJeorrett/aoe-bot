@@ -1,8 +1,10 @@
+// TODO: Change unitKeys -> unitTypes.
 export const unitKeys = {
   townCenter: 'townCenter',
   villager: 'villager',
 };
 
+// TODO: Change actionKeys -> actionTypes.
 export const actionKeys = {
   createVillager: 'createVillager',
 }

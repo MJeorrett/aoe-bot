@@ -5,7 +5,7 @@ import { actions, selectors } from '../store';
 import Units from './Units';
 
 const mapStateToProps = state => ({
-  units: selectors.units.all(state),
+  unitIds: selectors.units.allIds(state),
 });
 
 const mapDispatchToProps = {
