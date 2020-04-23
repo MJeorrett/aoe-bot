@@ -11,7 +11,7 @@ const ActionSelector = ({
   return (
     <select>
       {actions.map(action => (
-        <option value={action.key}>{action.name}</option>
+        <option key={action.key} value={action.key}>{action.name}</option>
       ))}
     </select>
   );

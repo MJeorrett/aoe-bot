@@ -5,13 +5,17 @@ import constants from '../constants';
 
 const Timeline = () => {
   const timeSlices = [];
-  repeat(500, () => timeSlices.push(<div style={{
-    minWidth: `${constants.secondWidth}px`,
-    height: '35px',
-    borderLeft: '0.5px solid dodgerblue',
-    borderTop: '0.5px solid dodgerblue',
-    borderBottom: '0.5px solid dodgerblue',
-  }} />));
+  let key = 0;
+  repeat(500, () => {
+    timeSlices.push(<div key={key} style={{
+      minWidth: `${constants.secondWidth}px`,
+      height: '35px',
+      borderLeft: '0.5px solid dodgerblue',
+      borderTop: '0.5px solid dodgerblue',
+      borderBottom: '0.5px solid dodgerblue',
+    }} />);
+    key++;
+  });
 
   return (
     <div style={{
