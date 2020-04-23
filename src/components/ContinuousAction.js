@@ -21,7 +21,7 @@ const Action = ({
         flexShrink: 0,
         margin: 0,
         fontSize: 14,
-      }}>{`${action.timeOffset} >> ${action.timeOffset + action.time - 1}`}</p>
+      }}>{`${action.timeOffset + 1} >> ${action.timeOffset + action.time}`}</p>
       <label>
         Duration:
         <input
