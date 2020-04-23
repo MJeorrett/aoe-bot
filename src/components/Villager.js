@@ -1,8 +1,10 @@
 import React from 'react';
 
+import Unit from './Unit';
+
 const Villager = () => {
   return (
-    <h3>Villager</h3>
+    <Unit title="Villager" />
   )
 };
 

@@ -1,8 +1,10 @@
 import React from 'react';
 
+import Unit from './Unit';
+
 const TownCenter = () => {
   return (
-    <h3>Town Center</h3>
+    <Unit title="Town Center" />
   );
 };
 
