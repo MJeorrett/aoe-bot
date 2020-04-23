@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 
-import Resources from './components/Resources';
+import ResourcesContainer from './components/ResourcesContainer';
 import TimelineContainer from './components/TimelineContainer';
 import UnitsContainer from './components/UnitsContainer';
 
@@ -12,7 +12,7 @@ function App() {
     <Provider store={store}>
       <div style={{ overflowX: 'scroll' }}>
         <h1>Age of Empires Build Order Tool</h1>
-        <Resources />
+        <ResourcesContainer />
         <TimelineContainer />
         <UnitsContainer />
       </div>

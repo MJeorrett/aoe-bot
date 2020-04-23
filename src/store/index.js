@@ -4,6 +4,8 @@ import * as unitsSlice from './units';
 import * as actionsSlice from './actions';
 import * as timelineSlice from './timeline';
 
+import selectResourcesByTime from './selectResourcesByTime';
+
 const store = configureStore({
   reducer: {
     units: unitsSlice.reducer,
@@ -22,6 +24,9 @@ export const selectors = {
   units: unitsSlice.selectors,
   actions: actionsSlice.selectors,
   timeline: timelineSlice.selectors,
+  meta: {
+    resourcesByTime: selectResourcesByTime,
+  },
 };
 
 export default store;

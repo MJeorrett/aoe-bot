@@ -1,5 +1,7 @@
 import React from 'react';
 
+import constants from '../constants';
+
 import TimeSlice from './TimeSlice';
 
 const Timeline = ({
@@ -9,10 +11,10 @@ const Timeline = ({
 }) => {
   const timeSlices = [];
   const times = [];
-  for (let i = 1; i <= 500; i++) {
+  for (let i = 1; i <= constants.maxTime; i++) {
     times.push(i);
   }
-  
+
   times.forEach((t) => {
     timeSlices.push(
       <TimeSlice
@@ -25,25 +27,20 @@ const Timeline = ({
   });
 
   return (
-    <>
-      <div style={{
-        display: 'flex',
-        marginBottom: '10px'
+    <div style={{
+      display: 'flex',
+      marginBottom: '10px'
+    }}>
+      <h3 style={{
+        margin: 0,
+        minWidth: '150px',
+        height: '35px',
+        backgroundColor: 'lightBlue'
       }}>
-        <h3 style={{
-          margin: 0,
-          minWidth: '150px',
-          height: '35px',
-          backgroundColor: 'lightBlue'
-        }}>
-          {`Timeline (${time ? time : '-'})`}
-        </h3>
-        {timeSlices}
-      </div>
-      <div>
-        <pre>{JSON.stringify(resources, null, 2)}</pre>
-      </div>
-    </>
+        {`Timeline (${time ? time : '-'})`}
+      </h3>
+      {timeSlices}
+    </div>
   );
 };
 
