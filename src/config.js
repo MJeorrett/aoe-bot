@@ -7,6 +7,7 @@ export const unitKeys = {
 // TODO: Change actionKeys -> actionTypes.
 export const actionKeys = {
   createVillager: 'createVillager',
+  forage: 'forage',
 }
 
 export const actions = {
@@ -17,6 +18,11 @@ export const actions = {
     food: 50,
     produces: unitKeys.villager,
   },
+  [actionKeys.forage]: {
+    key: actionKeys.forage,
+    name: 'Forage',
+    isContinuous: true,
+  }
 };
 
 export const units = {
@@ -30,6 +36,8 @@ export const units = {
   [unitKeys.villager] : {
     key: unitKeys.villager,
     name: 'Villager',
-    actions: []
+    actions: [
+      actionKeys.forage,
+    ]
   },
 };

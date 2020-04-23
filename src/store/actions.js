@@ -19,6 +19,9 @@ const slice = createSlice({
         state.unitActions[unitId] = [action.id];
       }
     },
+    setTime: (state, { payload: { id, newTime } }) => {
+      state.items[id].time = newTime;
+    }
   },
 });
 
@@ -29,6 +32,7 @@ export const {
 
 export const actions = {
   add: (unitId, action) => slice.actions.add({ unitId, action }),
+  setTime: (id, newTime) => slice.actions.setTime({ id, newTime }),
 };
 
 const selectActionsState = state => state[slice.name];
@@ -49,5 +53,10 @@ export const selectors = {
         return action;
       });
     },
+  ),
+  makeSelectTimeById: () => createSelector(
+    selectActionsState,
+    (_, id) => id,
+    (state, id) => state.items[id].time,
   ),
 };

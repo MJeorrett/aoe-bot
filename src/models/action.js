@@ -7,6 +7,8 @@ export const createAction = (key) => {
   return {
     id: generateId(),
     type: key,
-    time: action.time,
+    name: action.name,
+    time: action.isContinuous ? 25 : action.time,
+    isContinuous: action.isContinuous,
   };
 };

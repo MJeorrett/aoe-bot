@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Action from './Action';
+import ContinousActionContainer from './ContinuousActionContainer';
 import ActionSelector from './ActionSelector';
 
 const Unit = ({
@@ -19,7 +20,11 @@ const Unit = ({
         margin: 0,
         backgroundColor: 'lightGrey',
       }}>{unit.name}</h3>
-      {actions.map(a => <Action key={a.id} action={a} />)}
+      {actions.map(a => (
+        a.isContinuous ?
+          <ContinousActionContainer key={a.id} action={a} /> :
+          <Action key={a.id} action={a} />)
+      )}
       <ActionSelector unit={unit.key} onSelect={addAction} />
     </div>
   );
