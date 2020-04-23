@@ -5,6 +5,7 @@ import TimeSlice from './TimeSlice';
 const Timeline = ({
   time,
   setTime,
+  resources,
 }) => {
   const timeSlices = [];
   const times = [];
@@ -24,20 +25,25 @@ const Timeline = ({
   });
 
   return (
-    <div style={{
-      display: 'flex',
-      marginBottom: '10px'
-    }}>
-      <h3 style={{
-        margin: 0,
-        minWidth: '150px',
-        height: '35px',
-        backgroundColor: 'lightBlue'
+    <>
+      <div style={{
+        display: 'flex',
+        marginBottom: '10px'
       }}>
-        {`Timeline (${time ? time : '-'})`}
-      </h3>
-      {timeSlices}
-    </div>
+        <h3 style={{
+          margin: 0,
+          minWidth: '150px',
+          height: '35px',
+          backgroundColor: 'lightBlue'
+        }}>
+          {`Timeline (${time ? time : '-'})`}
+        </h3>
+        {timeSlices}
+      </div>
+      <div>
+        <pre>{JSON.stringify(resources, null, 2)}</pre>
+      </div>
+    </>
   );
 };
 

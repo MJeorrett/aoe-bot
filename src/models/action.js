@@ -9,6 +9,7 @@ export const createAction = (key) => {
     type: key,
     name: action.name,
     time: action.isContinuous ? 25 : action.time,
-    isContinuous: action.isContinuous,
+    isContinuous: !!action.isContinuous,
+    food: action.food || 0,
   };
 };

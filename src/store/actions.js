@@ -37,21 +37,36 @@ export const actions = {
 
 const selectActionsState = state => state[slice.name];
 
+const addTimeOffsetToActions = (state, actionIds) => {
+  let timeOffset = 0;
+  return actionIds.map(actionId => {
+    const action = {
+      timeOffset,
+      ...state.items[actionId]
+    };
+    timeOffset += state.items[actionId].time;
+    return action;
+  });
+}
+
 export const selectors = {
   makeSelectActionsForUnit: () => createSelector(
     selectActionsState,
     (_, unitId) => unitId,
     (state, unitId) => {
       const actionIds = state.unitActions[unitId] || [];
-      let timeOffset = 0;
-      return actionIds.map(actionId => {
-        const action = {
-          timeOffset,
-          ...state.items[actionId]
-        };
-        timeOffset += state.items[actionId].time;
-        return action;
+      return addTimeOffsetToActions(state, actionIds);
+    },
+  ),
+  all: createSelector(
+    selectActionsState,
+    state => {
+      const result = [];
+      Object.keys(state.unitActions).forEach(unitId => {
+        addTimeOffsetToActions(state, state.unitActions[unitId])
+          .forEach(action => result.push(action));
       });
+      return result;
     },
   ),
   makeSelectTimeById: () => createSelector(

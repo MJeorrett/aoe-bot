@@ -19,12 +19,13 @@ export const actions = {
   [actionKeys.createVillager]: {
     name: 'Create Villager',
     time: 25,
-    food: 50,
+    food: -50,
     produces: unitKeys.villager,
   },
   [actionKeys.forage]: {
     name: 'Forage',
     isContinuous: true,
+    food: 0.31,
   }
 };
 
