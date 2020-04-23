@@ -1,29 +1,29 @@
-const unitNames = {
-  townCenter: 'TownCenter',
-  villager: 'Villager',
+export const unitKeys = {
+  townCenter: 'townCenter',
+  villager: 'villager',
 };
 
-const actionNames = {
-  createVillager: 'Create Villager',
+export const actionKeys = {
+  createVillager: 'createVillager',
 }
 
-export const actions = [
-  {
-    name: actionNames.createVillager,
+export const actions = {
+  [actionKeys.createVillager]: {
+    key: actionKeys.createVillager,
+    name: 'Create Villager',
     time: 25,
     food: 50,
-    produces: unitNames.villager,
+    produces: unitKeys.villager,
   },
-];
+};
 
-export const units = [
-  {
-    name: unitNames.townCenter,
+export const units = {
+  [unitKeys.townCenter]: {
     actions: [
-      actionNames.createVillager,
+      actionKeys.createVillager,
     ]
   },
-  {
-    name: unitNames.villager,
+  [unitKeys.villager] : {
+
   },
-];
+};
