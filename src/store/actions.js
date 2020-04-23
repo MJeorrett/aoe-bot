@@ -39,7 +39,15 @@ export const selectors = {
     (_, unitId) => unitId,
     (state, unitId) => {
       const actionIds = state.unitActions[unitId] || [];
-      return actionIds.map(actionId => state.items[actionId]);
+      let timeOffset = 1;
+      return actionIds.map(actionId => {
+        const action = {
+          timeOffset,
+          ...state.items[actionId]
+        };
+        timeOffset += state.items[actionId].time;
+        return action;
+      });
     },
   ),
 };
