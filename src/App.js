@@ -2,10 +2,13 @@ import React from 'react';
 import { Provider } from 'react-redux';
 
 import store from './store';
+import seedStore from './seedStore';
 
 import ResourcesContainer from './components/ResourcesContainer';
 import TimelineContainer from './components/TimelineContainer';
 import UnitsContainer from './components/UnitsContainer';
+
+seedStore(store);
 
 function App() {
   return (

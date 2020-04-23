@@ -1,29 +1,10 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 
-import * as config from '../config';
-
 const slice = createSlice({
   name: 'units',
   initialState: {
-    ids: ['1', '2', '3', '4'],
-    items: {
-      '1': {
-        id: '1',
-        ...config.units[config.unitKeys.townCenter],
-      },
-      '2': {
-        id: '2',
-        ...config.units[config.unitKeys.villager],
-      },
-      '3': {
-        id: '3',
-        ...config.units[config.unitKeys.villager],
-      },
-      '4': {
-        id: '4',
-        ...config.units[config.unitKeys.villager],
-      },
-    },
+    ids: [],
+    items: {},
   },
   reducers: {
     'add': (state, { payload: { unit }}) => {
