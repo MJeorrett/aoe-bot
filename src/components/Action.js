@@ -12,7 +12,9 @@ const Action = ({
   return (
     <h4 style={{
       margin: 0,
-      border: '1px solid lightgreen',
+      border: '0.5px solid green',
+      color: 'green',
+      backgroundColor: 'lightgreen',
       minWidth: `${action.time * constants.secondWidth}px`,
       maxWidth: `${action.time * constants.secondWidth}px`,
     }}>{action.name}</h4>
