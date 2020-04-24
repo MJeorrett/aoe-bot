@@ -1,5 +1,16 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 
+const updateActionTimeOffsetsForUnit = (state, unitId, startingIndex, deltaTime) => {
+  const unitActionIds = state.unitActions[unitId];
+  let actionToUpdateIndex = startingIndex;
+
+  while (actionToUpdateIndex < unitActionIds.length) {
+    const actionToUpdateId = unitActionIds[actionToUpdateIndex];
+    state.actionTimeOffsets[actionToUpdateId] += deltaTime;
+    actionToUpdateIndex++;
+  }
+};
+
 const slice = createSlice({
   name: 'actions',
   initialState: {
@@ -30,19 +41,26 @@ const slice = createSlice({
         state.items[action.id].time = state.actionTimeOffsets[parentAction.id] + parentAction.time;
       }
     },
+
+    remove: (state, { payload: { actionId, unitId } }) => {
+      const deltaTime = -state.items[actionId].time;
+      const startingIndex = state.unitActions[unitId].indexOf(actionId) + 1;
+
+      updateActionTimeOffsetsForUnit(state, unitId, startingIndex, deltaTime);
+
+      state.ids = state.ids.filter(id => id !== actionId);
+      delete state.items[actionId];
+      delete state.actionTimeOffsets[actionId];
+      state.unitActions[unitId] = state.unitActions[unitId].filter(id => id !== actionId);
+    },
     setTime: (state, { payload: { id, unitId, newTime } }) => {
       const oldTime = state.items[id].time;
       const deltaTime = newTime - oldTime;
       state.items[id].time = newTime;
 
-      const unitActionIds = state.unitActions[unitId];
-      let actionToUpdateIndex = unitActionIds.indexOf(id) + 1;
+      const startingIndex = state.unitActions[unitId].indexOf(id) + 1;
 
-      while (actionToUpdateIndex < unitActionIds.length) {
-        const actionToUpdateId = unitActionIds[actionToUpdateIndex];
-        state.actionTimeOffsets[actionToUpdateId] += deltaTime;
-        actionToUpdateIndex++;
-      }
+      updateActionTimeOffsetsForUnit(state, unitId, startingIndex, deltaTime);
     },
   },
 });
@@ -54,6 +72,7 @@ export const {
 
 export const actions = {
   add: (unitId, action) => slice.actions.add({ unitId, action }),
+  remove: (actionId, unitId) => slice.actions.remove({ unitId, actionId }),
   setTime: (id, unitId, newTime) => slice.actions.setTime({ id, unitId, newTime }),
 };
 

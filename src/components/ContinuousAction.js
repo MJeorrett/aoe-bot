@@ -5,17 +5,21 @@ import constants from '../constants';
 const ContinuousAction = ({
   action,
   setTime,
+  remove,
 }) => {
   const [cachedTime, setCachedTime] = useState(action.time);
 
   return (
-    <div style={{
-      border: '0.5px solid green',
-      color: 'green',
-      backgroundColor: 'lightgreen',
-      minWidth: `${action.time * constants.secondWidth}px`,
-      maxWidth: `${action.time * constants.secondWidth}px`,
-    }}>
+    <div
+      style={{
+        border: '0.5px solid green',
+        color: 'green',
+        backgroundColor: 'lightgreen',
+        minWidth: `${action.time * constants.secondWidth}px`,
+        maxWidth: `${action.time * constants.secondWidth}px`,
+      }}
+      onDoubleClick={remove}
+    >
       <h4 style={{
         margin: 0,
       }}>{action.name}</h4>

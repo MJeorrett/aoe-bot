@@ -4,6 +4,7 @@ import constants from '../constants';
 
 const SimpleAction = ({
   action,
+  remove,
 }) => {
   return (
     <div style={{
@@ -13,9 +14,14 @@ const SimpleAction = ({
       minWidth: `${action.time * constants.secondWidth}px`,
       maxWidth: `${action.time * constants.secondWidth}px`,
     }}>
-      <h4 style={{
-        margin: 0,
-      }}>{action.name}</h4>
+      <h4
+        style={{
+          margin: 0,
+        }}
+        onDoubleClick={remove}
+      >
+        {action.name}
+      </h4>
       <p style={{
         margin: 0,
         fontSize: 14,
