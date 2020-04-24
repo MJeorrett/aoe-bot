@@ -6,6 +6,7 @@ import Timeline from './Timeline';
 
 const mapStateToProps = state => ({
   time: selectors.timeline.time(state),
+  previewTime: selectors.timeline.previewTime(state),
 });
 
 const mapDispatchToProps = ({

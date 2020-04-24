@@ -14,6 +14,7 @@ const buildTimes = maxTime => {
 
 const Timeline = ({
   time,
+  previewTime,
   setTime,
   setPreviewTime,
   resources,
@@ -30,6 +31,8 @@ const Timeline = ({
     />
   ));
 
+  const displayTime = previewTime >= 0 ? previewTime : time;
+
   return (
     <div style={{
       display: 'flex',
@@ -41,7 +44,7 @@ const Timeline = ({
         height: '35px',
         backgroundColor: 'lightBlue'
       }}>
-        {`Timeline (${time ? time : '-'})`}
+        {`Timeline (${displayTime >= 0 ? displayTime : '-'})`}
       </h3>
       {renderTimeSlices()}
     </div>

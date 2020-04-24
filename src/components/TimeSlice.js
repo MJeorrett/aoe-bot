@@ -23,7 +23,7 @@ const TimeSlice = ({
     <div
       className="timeslot"
       onMouseEnter={() => setPreviewTime(time)}
-      onMouseLeave={() => setPreviewTime(null)}
+      onMouseLeave={() => setPreviewTime(-1)}
       onClick={() => setTime(time)}
       style={isSelected ?
         {

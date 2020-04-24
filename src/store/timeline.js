@@ -4,7 +4,7 @@ const slice = createSlice({
   name: 'timeline',
   initialState: {
     time: 0,
-    previewTime: null,
+    previewTime: -1,
   },
   reducers: {
     setTime: (state, { payload: { newTime } }) => {
