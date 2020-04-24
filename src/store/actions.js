@@ -49,10 +49,6 @@ export const actions = {
 const selectActionsState = state => state[slice.name];
 
 export const selectors = {
-  allIds: createSelector(
-    selectActionsState,
-    state => state.ids,
-  ),
   makeSelectActionIdsForUnit: () => createSelector(
     selectActionsState,
     (_, unitId) => unitId,
