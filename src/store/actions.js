@@ -24,8 +24,8 @@ const slice = createSlice({
       state.ids.push(action.id);
       state.items[action.id] = action;
 
-      if (state.unitActions[unitId]) {
-        const unitActions = state.unitActions[unitId];
+      const unitActions = state.unitActions[unitId];
+      if (unitActions && unitActions.length > 0) {
         const previousActionId = unitActions[unitActions.length - 1];
         const previousAction = state.items[previousActionId];
         state.actionTimeOffsets[action.id] = state.actionTimeOffsets[previousActionId] + previousAction.time;
