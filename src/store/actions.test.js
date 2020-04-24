@@ -5,7 +5,7 @@ import constants from '../constants';
 import { createAction } from '../models/action';
 import { createUnit } from '../models/unit';
 
-describe('index', () => {
+describe('actions', () => {
   let store;
   let defaultTownCenterId;
   let defaultVillagerIds;
@@ -35,6 +35,48 @@ describe('index', () => {
     store = require('../store').default;
   });
   
+  describe('add', () => {
+    let firstAction;
+
+    beforeEach(() => {
+      firstAction = createAction(config.actionKeys.createVillager);
+      store.dispatch(actions.actions.add(defaultTownCenterId, firstAction));
+    });
+
+    it('should add action to action ids for unit', () => {
+      expect(
+        selectors.actions.makeSelectActionIdsForUnit()(store.getState(), defaultTownCenterId)
+      ).toContain(firstAction.id);
+    });
+
+    it('should return it by id', () => {
+      expect(
+        selectors.actions.makeSelectActionById()(store.getState(), firstAction.id)
+      ).toEqual(
+        expect.objectContaining({
+          id: firstAction.id,
+        })
+      );
+    });
+
+    it('should set timeOffset to zero for first action', () => {
+      expect(
+        selectors.actions.makeSelectActionById()(store.getState(), firstAction.id)
+      ).toEqual(
+        expect.objectContaining({
+          timeOffset: 0,
+        })
+      );
+    });
+
+    it('should set offsetTime of second action to time of previous action', () => {
+      const secondAction = createAction(config.actionKeys.createVillager);
+      store.dispatch(actions.actions.add(defaultTownCenterId, secondAction));
+      expect(
+        selectors.actions.makeSelectActionById()(store.getState(), secondAction.id).timeOffset
+      ).toEqual(firstAction.time);
+    });
+  });
   describe('continuous action resource increments', () => {
     let action
 
