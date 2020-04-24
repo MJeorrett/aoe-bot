@@ -15,6 +15,7 @@ const buildTimes = maxTime => {
 const Timeline = ({
   time,
   setTime,
+  setPreviewTime,
   resources,
 }) => {
   const times = buildTimes(constants.maxTime);
@@ -25,6 +26,7 @@ const Timeline = ({
       time={t}
       isSelected={time === t}
       setTime={setTime}
+      setPreviewTime={setPreviewTime}
     />
   ));
 

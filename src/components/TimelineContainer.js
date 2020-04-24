@@ -10,6 +10,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = ({
   setTime: actions.timeline.setTime,
+  setPreviewTime: actions.timeline.setPreviewTime,
 });
 
 export default connect(

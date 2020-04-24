@@ -8,6 +8,7 @@ const TimeSlice = ({
   time,
   isSelected,
   setTime,
+  setPreviewTime,
 }) => {
   const baseStyles = {
     cursor: 'pointer',
@@ -21,6 +22,8 @@ const TimeSlice = ({
   return (
     <div
       className="timeslot"
+      onMouseEnter={() => setPreviewTime(time)}
+      onMouseLeave={() => setPreviewTime(null)}
       onClick={() => setTime(time)}
       style={isSelected ?
         {
