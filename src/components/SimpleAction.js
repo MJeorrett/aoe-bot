@@ -1,18 +1,10 @@
 import React from 'react';
 
 import constants from '../constants';
-import * as config from '../config';
 
 const SimpleAction = ({
-  action: {
-    type: actionType,
-    timeOffset,
-  },
+  action,
 }) => {
-  const action = {
-    timeOffset,
-    ...config.actions[actionType],
-  };
   return (
     <div style={{
       border: '0.5px solid green',
