@@ -28,7 +28,7 @@ const TimeSlice = ({
       style={isSelected ?
         {
           ...baseStyles,
-          backgroundColor: 'blue',
+          backgroundColor: 'dodgerblue',
         } :
         baseStyles
       }
