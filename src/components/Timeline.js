@@ -6,7 +6,7 @@ import TimeSlice from './TimeSlice';
 
 const buildTimes = maxTime => {
   const times = [];
-  for (let i = 1; i <= constants.maxTime; i++) {
+  for (let i = 0; i <= constants.maxTime; i++) {
     times.push(i);
   }
   return times;

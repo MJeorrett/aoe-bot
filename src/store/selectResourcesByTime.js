@@ -25,21 +25,15 @@ const selectResourcesByTime = createSelector(
 
     let timeOffset = 0;
     const actionEnds = [];
-
     const resourcesByTime = {};
 
     const updateResourceIncrement = (type, action) => {
       if (action[type]) {
-        if (action.isContinuous) {
-          increments[type] += action[type];
-          actionEnds.push({
-            [type]: action[type],
-            timeOffset: action.timeOffset + action.time,
-          });
-        }
-        else {
-          current[type] += action[type];
-        }
+        increments[type] += action[type];
+        actionEnds.push({
+          [type]: action[type],
+          timeOffset: action.timeOffset + action.time,
+        });
       }
     };
 
@@ -50,29 +44,34 @@ const selectResourcesByTime = createSelector(
       if (actionEnd.gold) increments.gold -= actionEnd.gold;
     };
 
-    const applyResourceIncrements = () => {
+    const applyContinuousActionIncrements = () => {
       current.food += increments.food;
       current.wood += increments.wood;
       current.stone += increments.stone;
       current.gold += increments.gold;
     };
 
-    const applyActionsAtCurrentTime = () => {
-      while (
-        actions.length > 0 &&
-        actions[0].timeOffset === timeOffset
-      ) {
-        const action = actions.shift();
+    const applyInstantActions = (actions) => {
+      actions.forEach(action => {
+        if (action.food) current.food += action.food;
+        if (action.wood) current.wood += action.wood;
+        if (action.stone) current.stone += action.stone;
+        if (action.gold) current.gold += action.gold;
+      });
+    };
+
+    const applyContinuousActions = (actions) => {
+      actions.forEach(action => {
         updateResourceIncrement('food', action);
         updateResourceIncrement('wood', action);
         updateResourceIncrement('stone', action);
         updateResourceIncrement('gold', action);
-      }
+      });
 
       actionEnds.sort((a, b) => a.timeOffset - b.timeOffset);
     };
 
-    const removeEndedActions = () => {
+    const removeFinishedContinuousActions = () => {
       while (
         actionEnds.length > 0 &&
         actionEnds[0].timeOffset === timeOffset
@@ -82,14 +81,39 @@ const selectResourcesByTime = createSelector(
       }
     };
 
+    const getActionsForCurrentTime = () => {
+      const actionsForCurrentTime = [];
+
+      while (
+        actions.length > 0 &&
+        actions[0].timeOffset === timeOffset
+      ) {
+        actionsForCurrentTime.push(actions.shift());
+      }
+      
+      return actionsForCurrentTime;
+    }
+
     while (timeOffset <= constants.maxTime) {
-      applyActionsAtCurrentTime();
+      const actionsForCurrentTime = getActionsForCurrentTime();
+      const continuousActions = [];
+      const instantActions = [];
 
-      removeEndedActions();
+      actionsForCurrentTime.forEach(action => {
+        if (action.isContinuous) continuousActions.push(action);
+        else instantActions.push(action);
+      })
 
-      applyResourceIncrements();
+      applyInstantActions(instantActions);
 
       resourcesByTime[timeOffset] = Object.assign({}, current);
+
+      applyContinuousActions(continuousActions);
+
+      removeFinishedContinuousActions();
+
+      applyContinuousActionIncrements();
+
       timeOffset++;
     }
 

@@ -3,15 +3,15 @@ import { createSlice, createSelector } from '@reduxjs/toolkit';
 const slice = createSlice({
   name: 'timeline',
   initialState: {
-    time: 1,
+    time: 0,
     previewTime: null,
   },
   reducers: {
     setTime: (state, { payload: { newTime } }) => {
-      state.time = newTime === state.time ? null : newTime;
+      state.time = newTime === state.time ? -1 : newTime;
     },
     setPreviewTime: (state, { payload: { newPreviewTime } }) => {
-      state.previewTime = newPreviewTime === state.previewTime ? null : newPreviewTime;
+      state.previewTime = newPreviewTime === state.previewTime ? -1 : newPreviewTime;
     },
   },
 });
