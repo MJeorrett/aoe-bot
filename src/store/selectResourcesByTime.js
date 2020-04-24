@@ -22,7 +22,7 @@ const selectResourcesByTime = createSelector(
       stone: 0,
       gold: 0,
     };
-    
+
     let timeOffset = 0;
     const actionEnds = [];
 
@@ -57,13 +57,6 @@ const selectResourcesByTime = createSelector(
       current.gold += increments.gold;
     };
 
-    const createCurrentResource = () => ({
-      food: Math.floor(current.food),
-      wood: Math.floor(current.wood),
-      stone: Math.floor(current.stone),
-      gold: Math.floor(current.gold),
-    });
-
     const applyActionsAtCurrentTime = () => {
       while (
         actions.length > 0 &&
@@ -96,7 +89,7 @@ const selectResourcesByTime = createSelector(
 
       applyResourceIncrements();
 
-      resourcesByTime[timeOffset] = createCurrentResource();
+      resourcesByTime[timeOffset] = Object.assign({}, current);
       timeOffset++;
     }
 

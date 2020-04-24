@@ -13,7 +13,12 @@ const Resources = ({
   const resources = resourcesByTime[time - 1];
   
   return (
-    <h4>Food: {resources.food}; Wood: {resources.wood}; Stone: {resources.stone}; Gold: {resources.gold}</h4>
+    <h4>
+      <span>Food: {Math.floor(resources.food)}; </span>
+      <span>Wood: {Math.floor(resources.wood)}; </span>
+      <span>Stone: {Math.floor(resources.stone)}; </span>
+      <span>Gold: {Math.floor(resources.gold)}; </span>
+    </h4>
   );
 };
 
