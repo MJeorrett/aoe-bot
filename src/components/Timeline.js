@@ -4,27 +4,29 @@ import constants from '../constants';
 
 import TimeSlice from './TimeSlice';
 
+const buildTimes = maxTime => {
+  const times = [];
+  for (let i = 1; i <= constants.maxTime; i++) {
+    times.push(i);
+  }
+  return times;
+};
+
 const Timeline = ({
   time,
   setTime,
   resources,
 }) => {
-  const timeSlices = [];
-  const times = [];
-  for (let i = 1; i <= constants.maxTime; i++) {
-    times.push(i);
-  }
+  const times = buildTimes(constants.maxTime);
 
-  times.forEach((t) => {
-    timeSlices.push(
-      <TimeSlice
-        key={t}
-        time={t}
-        isSelected={time === t}
-        setTime={setTime}
-      />
-    );
-  });
+  const renderTimeSlices = () => times.map(t => (
+    <TimeSlice
+      key={t}
+      time={t}
+      isSelected={time === t}
+      setTime={setTime}
+    />
+  ));
 
   return (
     <div style={{
@@ -39,7 +41,7 @@ const Timeline = ({
       }}>
         {`Timeline (${time ? time : '-'})`}
       </h3>
-      {timeSlices}
+      {renderTimeSlices()}
     </div>
   );
 };
