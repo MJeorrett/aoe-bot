@@ -14,6 +14,8 @@ export const createAction = (key) => {
     isContinuous: !!action.isContinuous,
     food: action.food || 0,
     wood: action.wood || 0,
+    stone: action.stone || 0,
+    gold: action.gold || 0,
   };
 };
 

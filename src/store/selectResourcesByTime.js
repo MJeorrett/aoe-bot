@@ -9,67 +9,92 @@ const selectResourcesByTime = createSelector(
   unsortedActions => {
     const actions = unsortedActions.sort((a, b) => a.timeOffset - b.timeOffset);
     // TODO: Put starting values in constants.
-    let currentFood = 200;
-    let currentWood = 200;
-    let foodIncrement = 0;
-    let woodIncrement = 0;
+    const current = {
+      food: 200,
+      wood: 200,
+      stone: 200,
+      gold: 100,
+    };
+    const increments = {
+      food: 0,
+      wood: 0,
+      stone: 0,
+      gold: 0,
+    };
     let timeOffset = 0;
     const actionEnds = [];
 
     const resourcesByTime = {};
 
-    while (timeOffset <= constants.maxTime) {
+    const updateResourceIncrement = (type, action) => {
+      if (action[type]) {
+        if (action.isContinuous) {
+          increments[type] += action[type];
+          actionEnds.push({
+            [type]: action[type],
+            timeOffset: action.timeOffset + action.time,
+          });
+        }
+        else {
+          current[type] += action[type];
+        }
+      }
+    };
+
+    const removeIncrementsForEndedAction = (actionEnd) => {
+      if (actionEnd.food) increments.food -= actionEnd.food;
+      if (actionEnd.wood) increments.wood -= actionEnd.wood;
+      if (actionEnd.stone) increments.stone -= actionEnd.stone;
+      if (actionEnd.gold) increments.gold -= actionEnd.gold;
+    };
+
+    const applyResourceIncrements = () => {
+      current.food += increments.food;
+      current.wood += increments.wood;
+      current.stone += increments.stone;
+      current.gold += increments.gold;
+    };
+
+    const createCurrentResource = () => ({
+      food: Math.floor(current.food),
+      wood: Math.floor(current.wood),
+      stone: Math.floor(current.stone),
+      gold: Math.floor(current.gold),
+    });
+
+    const applyActionsAtCurrentTime = () => {
       while (
         actions.length > 0 &&
         actions[0].timeOffset === timeOffset
       ) {
         const action = actions.shift();
-
-        if (action.food) {
-          if (action.isContinuous) {
-            foodIncrement += action.food;
-            actionEnds.push({
-              foodIncrement: action.food,
-              timeOffset: action.timeOffset + action.time,
-            });
-          }
-          else {
-            currentFood += action.food;
-          }
-        }
-        if (action.wood) {
-          if (action.isContinuous) {
-            woodIncrement += action.wood;
-            actionEnds.push({
-              woodIncrement: action.wood,
-              timeOffset: action.timeOffset + action.time,
-            });
-          }
-          else {
-            currentWood += action.wood;
-          }
-        }
+        updateResourceIncrement('food', action);
+        updateResourceIncrement('wood', action);
+        updateResourceIncrement('stone', action);
+        updateResourceIncrement('gold', action);
       }
 
       actionEnds.sort((a, b) => a.timeOffset - b.timeOffset);
+    };
 
+    const removeEndedActions = () => {
       while (
         actionEnds.length > 0 &&
         actionEnds[0].timeOffset === timeOffset
       ) {
         const actionEnd = actionEnds.shift();
-        foodIncrement -= actionEnd.foodIncrement;
-        woodIncrement -= actionEnd.woodIncrement;
+        removeIncrementsForEndedAction(actionEnd);
       }
+    };
 
-      currentFood += foodIncrement;
-      currentWood += woodIncrement;
+    while (timeOffset <= constants.maxTime) {
+      applyActionsAtCurrentTime();
 
-      resourcesByTime[timeOffset] = {
-        food: Math.floor(currentFood),
-        wood: Math.floor(currentWood),
-      };
+      removeEndedActions();
 
+      applyResourceIncrements();
+
+      resourcesByTime[timeOffset] = createCurrentResource();
       timeOffset++;
     }
 

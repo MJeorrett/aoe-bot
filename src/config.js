@@ -12,6 +12,8 @@ export const actionKeys = {
   forage: 'forage',
   lumberjack: 'lumberjack',
   buildBarracks: 'buildBarracks',
+  mineStone: 'mineStone',
+  mineGold: 'mineGold',
 };
 
 export const actions = {
@@ -34,6 +36,16 @@ export const actions = {
     name: 'Lumberjack',
     isContinuous: true,
     wood: 0.39,
+  },
+  [actionKeys.mineStone]: {
+    name: 'Mine Stone',
+    isContinuous: true,
+    stone: 0.36,
+  },
+  [actionKeys.mineGold]: {
+    name: 'Mine Gold',
+    isContinuous: true,
+    gold: 0.38,
   },
   [actionKeys.buildBarracks]: {
     name: 'Build Barracks',
@@ -60,6 +72,8 @@ export const units = {
       actionKeys.idle,
       actionKeys.forage,
       actionKeys.lumberjack,
+      actionKeys.mineStone,
+      actionKeys.mineGold,
       actionKeys.buildBarracks,
     ],
   },
