@@ -35,12 +35,13 @@ describe('index', () => {
     store = require('../store').default;
   });
   
-  describe('continuous action rresource increments', () => {
-    const action = createAction(config.actionKeys.forage);
+  describe('continuous action resource increments', () => {
+    let action
 
     describe('food', () => {
       beforeEach(() => {
         createDefaultUnits();
+        action = createAction(config.actionKeys.forage);
         store.dispatch(actions.actions.add(defaultVillagerIds[0], action));
         resourcesByTime = getResourcesByTime();
       });
@@ -52,12 +53,21 @@ describe('index', () => {
       it('should add food to time slice 1', () => {
         expect(resourcesByTime[1].food).toEqual(constants.startingFood + config.actions.forage.food);
       });
+
+      it('should stop incrementing when action ends', () => {
+        store.dispatch(actions.actions.setTime(action.id, 17));
+        resourcesByTime = getResourcesByTime();
+        expect(resourcesByTime[16].food).toBeCloseTo(constants.startingFood + (config.actions.forage.food * 16));
+        expect(resourcesByTime[17].food).toBeCloseTo(constants.startingFood + (config.actions.forage.food * 17));
+        expect(resourcesByTime[18].food).toBeCloseTo(constants.startingFood + (config.actions.forage.food * 17));
+      });
     });
 
     describe('wood', () => {
       beforeEach(() => {
         createDefaultUnits();
-        store.dispatch(actions.actions.add(defaultVillagerIds[0], createAction(config.actionKeys.lumberjack)));
+        action = createAction(config.actionKeys.lumberjack);
+        store.dispatch(actions.actions.add(defaultVillagerIds[0], action));
         resourcesByTime = getResourcesByTime();
       });
   
@@ -68,12 +78,21 @@ describe('index', () => {
       it('should add wood to time slice 1', () => {
         expect(resourcesByTime[1].wood).toEqual(constants.startingWood + config.actions.lumberjack.wood);
       });
+
+      it('should stop incrementing when action ends', () => {
+        store.dispatch(actions.actions.setTime(action.id, 17));
+        resourcesByTime = getResourcesByTime();
+        expect(resourcesByTime[16].wood).toBeCloseTo(constants.startingWood + (config.actions.lumberjack.wood * 16));
+        expect(resourcesByTime[17].wood).toBeCloseTo(constants.startingWood + (config.actions.lumberjack.wood * 17));
+        expect(resourcesByTime[18].wood).toBeCloseTo(constants.startingWood + (config.actions.lumberjack.wood * 17));
+      });
     });
   
     describe('stone', () => {
       beforeEach(() => {
         createDefaultUnits();
-        store.dispatch(actions.actions.add(defaultVillagerIds[0], createAction(config.actionKeys.mineStone)));
+        action = createAction(config.actionKeys.mineStone);
+        store.dispatch(actions.actions.add(defaultVillagerIds[0], action));
         resourcesByTime = getResourcesByTime();
       });
   
@@ -84,12 +103,21 @@ describe('index', () => {
       it('should add stone to time slice 1', () => {
         expect(resourcesByTime[1].stone).toEqual(constants.startingStone + config.actions.mineStone.stone);
       });
+
+      it('should stop incrementing when action ends', () => {
+        store.dispatch(actions.actions.setTime(action.id, 17));
+        resourcesByTime = getResourcesByTime();
+        expect(resourcesByTime[16].stone).toBeCloseTo(constants.startingStone + (config.actions.mineStone.stone * 16));
+        expect(resourcesByTime[17].stone).toBeCloseTo(constants.startingStone + (config.actions.mineStone.stone * 17));
+        expect(resourcesByTime[18].stone).toBeCloseTo(constants.startingStone + (config.actions.mineStone.stone * 17));
+      });
     });
   
     describe('gold', () => {
       beforeEach(() => {
         createDefaultUnits();
-        store.dispatch(actions.actions.add(defaultVillagerIds[0], createAction(config.actionKeys.mineGold)));
+        action = createAction(config.actionKeys.mineGold);
+        store.dispatch(actions.actions.add(defaultVillagerIds[0], action));
         resourcesByTime = getResourcesByTime();
       });
   
@@ -99,6 +127,14 @@ describe('index', () => {
   
       it('should add gold to time slice 1', () => {
         expect(resourcesByTime[1].gold).toEqual(constants.startingGold + config.actions.mineGold.gold);
+      });
+
+      it('should stop incrementing when action ends', () => {
+        store.dispatch(actions.actions.setTime(action.id, 17));
+        resourcesByTime = getResourcesByTime();
+        expect(resourcesByTime[16].gold).toBeCloseTo(constants.startingGold + (config.actions.mineGold.gold * 16));
+        expect(resourcesByTime[17].gold).toBeCloseTo(constants.startingGold + (config.actions.mineGold.gold * 17));
+        expect(resourcesByTime[18].gold).toBeCloseTo(constants.startingGold + (config.actions.mineGold.gold * 17));
       });
     });
   });
