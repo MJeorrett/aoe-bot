@@ -23,7 +23,7 @@ const ContinuousAction = ({
         flexShrink: 0,
         margin: 0,
         fontSize: 14,
-      }}>{`${action.timeOffset + 1} >> ${action.timeOffset + action.time}`}</p>
+      }}>{`${action.timeOffset} >> ${action.timeOffset + action.time}`}</p>
       <label>
         Duration:
         <input
