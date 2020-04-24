@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 
 import store from './store';
-import seedStore from './seedStore';
+import seedStore from './seedStoreWithDefaultUnits';
 
 import ResourcesContainer from './components/ResourcesContainer';
 import TimelineContainer from './components/TimelineContainer';
