@@ -8,19 +8,21 @@ const selectResourcesByTime = createSelector(
   actionsSlice.selectors.all,
   unsortedActions => {
     const actions = unsortedActions.sort((a, b) => a.timeOffset - b.timeOffset);
-    // TODO: Put starting values in constants.
+
     const current = {
-      food: 200,
-      wood: 200,
-      stone: 200,
-      gold: 100,
+      food: constants.startingFood,
+      wood: constants.startingWood,
+      stone: constants.startingStone,
+      gold: constants.startingGold,
     };
+
     const increments = {
       food: 0,
       wood: 0,
       stone: 0,
       gold: 0,
     };
+    
     let timeOffset = 0;
     const actionEnds = [];
 
