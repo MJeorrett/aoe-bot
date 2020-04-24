@@ -30,9 +30,20 @@ const slice = createSlice({
         state.items[action.id].time = state.actionTimeOffsets[parentAction.id] + parentAction.time;
       }
     },
-    setTime: (state, { payload: { id, newTime } }) => {
+    setTime: (state, { payload: { id, unitId, newTime } }) => {
+      const oldTime = state.items[id].time;
+      const deltaTime = newTime - oldTime;
       state.items[id].time = newTime;
-    }
+
+      const unitActionIds = state.unitActions[unitId];
+      let actionToUpdateIndex = unitActionIds.indexOf(id) + 1;
+
+      while (actionToUpdateIndex < unitActionIds.length) {
+        const actionToUpdateId = unitActionIds[actionToUpdateIndex];
+        state.actionTimeOffsets[actionToUpdateId] += deltaTime;
+        actionToUpdateIndex++;
+      }
+    },
   },
 });
 
@@ -43,7 +54,7 @@ export const {
 
 export const actions = {
   add: (unitId, action) => slice.actions.add({ unitId, action }),
-  setTime: (id, newTime) => slice.actions.setTime({ id, newTime }),
+  setTime: (id, unitId, newTime) => slice.actions.setTime({ id, unitId, newTime }),
 };
 
 const selectActionsState = state => state[slice.name];

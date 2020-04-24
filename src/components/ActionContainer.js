@@ -19,9 +19,10 @@ const mapStateToProps = () => {
 export default connect(
   mapStateToProps,
 )(({
+  unitId,
   action,
 }) => {
   if (action.type === placeholderActionType) return <PlaceholderAction action={action} />;
-  if (action.isContinuous) return <ContinuousActionContainer key={action.id} action={action} />;
+  if (action.isContinuous) return <ContinuousActionContainer key={action.id} unitId={unitId} action={action} />;
   return <SimpleAction key={action.id} action={action} />;
 });

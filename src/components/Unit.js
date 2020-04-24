@@ -20,7 +20,7 @@ const Unit = ({
         backgroundColor: 'lightGrey',
       }}>{unit.name}</h3>
       {actionIds.map(actionId => (
-        <ActionContainer key={actionId} id={actionId} />
+        <ActionContainer key={actionId} unitId={unit.id} id={actionId} />
       ))}
       <ActionSelector unit={unit.key} onSelect={addAction} />
     </div>
