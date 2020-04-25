@@ -132,7 +132,7 @@ describe('actions', () => {
       });
   
       it('should update offset of following action', () => {
-        store.dispatch(actions.actions.setTime(action2.id, defaultVillagerIds[0], 7));
+        store.dispatch(actions.actions.setTime(action2.id, 7));
   
         expect(
           getActionById(action3.id).timeOffset
@@ -140,7 +140,7 @@ describe('actions', () => {
       });
   
       it('should update offset of following actions', () => {
-        store.dispatch(actions.actions.setTime(action1.id, defaultVillagerIds[0], 13));
+        store.dispatch(actions.actions.setTime(action1.id, 13));
         expect(
           getActionById(action3.id).timeOffset
         ).toEqual(33);
@@ -152,7 +152,7 @@ describe('actions', () => {
       it('should update multiple child action offsets', () => {
         const action2SecondChild = createAction(config.actionKeys.mineStone);
         store.dispatch(actions.actions.add(defaultVillagerIds[0], action2.id, action2SecondChild));
-        store.dispatch(actions.actions.setTime(action2.id, defaultVillagerIds[0], 7));
+        store.dispatch(actions.actions.setTime(action2.id, 7));
   
         expect(
           getActionById(action3.id).timeOffset
@@ -182,7 +182,7 @@ describe('actions', () => {
         store.dispatch(actions.actions.add(defaultTownCenterId, parentAction2.id, childPlaceholder2));
         store.dispatch(actions.actions.add(defaultTownCenterId, parentAction3.id, childPlaceholder3));
 
-        store.dispatch(actions.actions.setTime(idleAction.id, defaultTownCenterId, 35));
+        store.dispatch(actions.actions.setTime(idleAction.id, 35));
 
         resourcesByTime = getResourcesByTime();
 
@@ -219,7 +219,7 @@ describe('actions', () => {
       });
 
       it('should stop incrementing when action ends', () => {
-        store.dispatch(actions.actions.setTime(action.id, defaultVillagerIds[0], 17));
+        store.dispatch(actions.actions.setTime(action.id, 17));
         resourcesByTime = getResourcesByTime();
         expect(resourcesByTime[16].food).toBeCloseTo(constants.startingFood + (config.actions.forage.food * 16));
         expect(resourcesByTime[17].food).toBeCloseTo(constants.startingFood + (config.actions.forage.food * 17));
@@ -244,7 +244,7 @@ describe('actions', () => {
       });
 
       it('should stop incrementing when action ends', () => {
-        store.dispatch(actions.actions.setTime(action.id, defaultVillagerIds[0], 17));
+        store.dispatch(actions.actions.setTime(action.id, 17));
         resourcesByTime = getResourcesByTime();
         expect(resourcesByTime[16].wood).toBeCloseTo(constants.startingWood + (config.actions.lumberjack.wood * 16));
         expect(resourcesByTime[17].wood).toBeCloseTo(constants.startingWood + (config.actions.lumberjack.wood * 17));
@@ -269,7 +269,7 @@ describe('actions', () => {
       });
 
       it('should stop incrementing when action ends', () => {
-        store.dispatch(actions.actions.setTime(action.id, defaultVillagerIds[0], 17));
+        store.dispatch(actions.actions.setTime(action.id, 17));
         resourcesByTime = getResourcesByTime();
         expect(resourcesByTime[16].stone).toBeCloseTo(constants.startingStone + (config.actions.mineStone.stone * 16));
         expect(resourcesByTime[17].stone).toBeCloseTo(constants.startingStone + (config.actions.mineStone.stone * 17));
@@ -294,7 +294,7 @@ describe('actions', () => {
       });
 
       it('should stop incrementing when action ends', () => {
-        store.dispatch(actions.actions.setTime(action.id, defaultVillagerIds[0], 17));
+        store.dispatch(actions.actions.setTime(action.id, 17));
         resourcesByTime = getResourcesByTime();
         expect(resourcesByTime[16].gold).toBeCloseTo(constants.startingGold + (config.actions.mineGold.gold * 16));
         expect(resourcesByTime[17].gold).toBeCloseTo(constants.startingGold + (config.actions.mineGold.gold * 17));

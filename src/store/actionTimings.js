@@ -71,8 +71,7 @@ const slice = createSlice({
 });
 
 export const actions = {
-  // TODO: remove unitId parameter.
-  setTime: (actionId, unitId, newTime) => slice.actions.setTime({ actionId, newTime }),
+  setTime: (actionId, newTime) => slice.actions.setTime({ actionId, newTime }),
 };
 
 export const {
