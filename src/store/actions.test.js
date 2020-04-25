@@ -80,6 +80,24 @@ describe('actions', () => {
     });
   });
 
+  describe('remove', () => {
+    let firstAction;
+
+    beforeEach(() => {
+      firstAction = createAction(config.actionKeys.createVillager);
+      store.dispatch(actions.actions.add(defaultTownCenterId, firstAction));
+      store.dispatch(actions.actions.remove(firstAction.id, defaultTownCenterId));
+    });
+
+    it('should remove it from unit action ids', () => {
+      expect(
+        selectors.actions.makeSelectActionIdsForUnit()(store.getState(), defaultTownCenterId)
+      ).not.toContain(
+        firstAction.id,
+      );
+    });
+  });
+
   describe('setTime', () => {
     let action1;
     let action2;

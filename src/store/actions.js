@@ -67,6 +67,7 @@ const slice = createSlice({
 
 export const {
   name: sliceName,
+  actions: internalActions,
   reducer,
 } = slice;
 
@@ -79,11 +80,6 @@ export const actions = {
 const selectActionsState = state => state[slice.name];
 
 export const selectors = {
-  makeSelectActionIdsForUnit: () => createSelector(
-    selectActionsState,
-    (_, unitId) => unitId,
-    (state, unitId) => state.unitActions[unitId] || [],
-  ),
   makeSelectActionById: () => createSelector(
     selectActionsState,
     (_, actionId) => actionId,
