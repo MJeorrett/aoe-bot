@@ -8,6 +8,10 @@ const Unit = ({
   actionIds,
   addAction,
 }) => {
+  const handleAddAction = actionKey => {
+    addAction(actionKey, actionIds[actionIds.length - 1] || null);
+  };
+  
   return (
     <div style={{
       display: 'flex',
@@ -22,7 +26,7 @@ const Unit = ({
       {actionIds.map(actionId => (
         <ActionContainer key={actionId} unitId={unit.id} id={actionId} />
       ))}
-      <ActionSelector unit={unit.key} onSelect={addAction} />
+      <ActionSelector unit={unit.key} onSelect={handleAddAction} />
     </div>
   );
 };

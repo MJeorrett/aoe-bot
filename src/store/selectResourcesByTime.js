@@ -3,10 +3,16 @@ import { createSelector } from '@reduxjs/toolkit';
 import constants from '../constants';
 
 import * as actionsSlice from './actions';
+import * as actionTimingsSlice from './actionTimings';
 
 const selectResourcesByTime = createSelector(
   actionsSlice.selectors.all,
-  unsortedActions => {
+  actionTimingsSlice.selectors.all,
+  (rawActions, actionTimings) => {
+    const unsortedActions = rawActions.map(action => ({
+      ...action,
+      ...actionTimings.find(actionTiming => actionTiming.id === action.id),
+    }));
     const actions = unsortedActions.sort((a, b) => a.timeOffset - b.timeOffset);
 
     const current = {
@@ -90,7 +96,7 @@ const selectResourcesByTime = createSelector(
       ) {
         actionsForCurrentTime.push(actions.shift());
       }
-      
+
       return actionsForCurrentTime;
     }
 

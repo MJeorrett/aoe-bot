@@ -18,16 +18,16 @@ const mapStateToProps = () => {
 };
 
 const mapDispatchToProps = (dispatch, { id }) => ({
-  addAction: (actionKey) => {
+  addAction: (actionKey, prevActionId) => {
     const newAction = createAction(actionKey);
-    dispatch(actions.actions.add(id, newAction));
+    dispatch(actions.actions.add(id, prevActionId, newAction));
 
     const producedUnitKey = config.actions[actionKey].produces;
     if (producedUnitKey) {
       const newUnit = createUnit(producedUnitKey, newAction.id);
       dispatch(actions.units.add(newUnit));
       const placeholderAction = createPlaceholderAction(newAction.id);
-      dispatch(actions.actions.add(newUnit.id, placeholderAction));
+      dispatch(actions.actions.add(newUnit.id, newAction.id, placeholderAction));
     }
   },
 });

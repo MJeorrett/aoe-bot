@@ -19,9 +19,8 @@ export const createAction = (key) => {
   };
 };
 
-export const createPlaceholderAction = parentActionId => ({
+export const createPlaceholderAction = () => ({
   id: generateId(),
   type: placeholderActionType,
-  time: 10, // set by reducer,
-  parentActionId,
-})
+  time: 1, // set by reducer,
+});
