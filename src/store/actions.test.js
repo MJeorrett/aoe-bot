@@ -223,6 +223,7 @@ describe('actions', () => {
     });
   });
 
+  // TODO: move this to selectResourceByTime.test.js
   describe('continuous action resource increments', () => {
     let action
 
