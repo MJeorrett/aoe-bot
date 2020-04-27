@@ -1,12 +1,14 @@
 import generateId from '../utils/generateId';
-import * as config from '../config';
+import { units } from '../config';
 
-export const createAction = (key, forceId) => {
-  const action = config.actions[key];
+export const createAction = (actionKey, unitKey, forceId) => {
+  const action = units[unitKey].actions[actionKey];
+
+  if (!action) throw new Error(`No action with key ${actionKey} exists.`);
 
   return {
     id: forceId || generateId(),
-    type: key,
+    type: actionKey,
     name: action.name,
     time: action.isContinuous ? 25 : action.time,
     isContinuous: !!action.isContinuous,

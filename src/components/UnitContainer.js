@@ -22,11 +22,11 @@ const mapStateToProps = () => {
 };
 
 const mapDispatchToProps = (dispatch, { id }) => ({
-  addAction: (actionKey, prevActionId) => {
-    const newAction = createAction(actionKey);
+  addAction: (actionKey, prevActionId, unitKey) => {
+    const newAction = createAction(actionKey, unitKey);
     dispatch(actions.actions.add(id, prevActionId, newAction));
 
-    const producedUnitKey = config.actions[actionKey].produces;
+    const producedUnitKey = config.units[unitKey].actions[actionKey].produces;
     if (producedUnitKey) {
       const newUnit = createUnit(producedUnitKey);
       dispatch(actions.units.add(newUnit, newAction.id));

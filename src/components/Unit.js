@@ -13,7 +13,7 @@ const Unit = ({
   deleteUnit,
 }) => {
   const handleAddAction = actionKey => {
-    addAction(actionKey, actionIds[actionIds.length - 1] || null);
+    addAction(actionKey, actionIds[actionIds.length - 1] || null, unit.key);
   };
   
   return (
@@ -42,7 +42,7 @@ const Unit = ({
       {actionIds.map(actionId => (
         <ActionContainer key={actionId} unitId={unit.id} id={actionId} />
       ))}
-      <ActionSelector unit={unit.key} onSelect={handleAddAction} />
+      <ActionSelector unitKey={unit.key} onSelect={handleAddAction} />
     </div>
   );
 };

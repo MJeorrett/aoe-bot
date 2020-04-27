@@ -1,6 +1,6 @@
 import { actions, selectors } from './index';
 
-import * as config from '../config';
+import { unitKeys, townCenterActions, villagerActions } from '../config';
 import { createUnit } from '../models/unit';
 import { createAction } from '../models/action';
 
@@ -14,7 +14,7 @@ describe('units', () => {
 
   describe('add', () => {
     it('should return unit by id', () => {
-      const unit = createUnit(config.unitKeys.townCenter);
+      const unit = createUnit(unitKeys.townCenter);
       store.dispatch(actions.units.add(unit));
 
       expect(
@@ -28,41 +28,41 @@ describe('units', () => {
   });
 
   describe('remove', () => {
-    let unit1;
+    let townCenter;
     beforeEach(() => {
-      unit1 = createUnit(config.unitKeys.townCenter);
-      store.dispatch(actions.units.add(unit1));
+      townCenter = createUnit(unitKeys.townCenter);
+      store.dispatch(actions.units.add(townCenter));
     });
     it('should remove all traces of the unit', () => {
-      store.dispatch(actions.units.remove(unit1.id));
+      store.dispatch(actions.units.remove(townCenter.id));
 
       expect(JSON.stringify(store.getState()))
-        .not.toContain(unit1.id);
+        .not.toContain(townCenter.id);
     });
     it('should remove child actions and units', () => {
-      const rootAction1 = createAction(config.actionKeys.idle);
-      const rootAction2 = createAction(config.actionKeys.idle);
-      const childAction1 = createAction(config.actionKeys.createVillager);
-      const childUnit1 = createUnit(config.unitKeys.villager);
-      const childAction2 = createAction(config.actionKeys.forage);
-      const childAction3 = createAction(config.actionKeys.forage);
+      const townCenterAction1 = createAction(townCenterActions.idle.key, unitKeys.townCenter);
+      const townCenterAction2 = createAction(townCenterActions.idle.key, unitKeys.townCenter);
+      const townCenterAction3 = createAction(townCenterActions.createVillager.key, unitKeys.townCenter);
+      const childUnit = createUnit(unitKeys.villager);
+      const childUnitAction1 = createAction(villagerActions.forage.key, unitKeys.villager);
+      const childUnitAction2 = createAction(villagerActions.forage.key, unitKeys.villager);
 
-      store.dispatch(actions.actions.add(unit1.id, null, childAction1));
-      store.dispatch(actions.actions.add(unit1.id, childAction1.id, rootAction1));
-      store.dispatch(actions.units.add(childUnit1, rootAction1.id, rootAction2));
-      store.dispatch(actions.actions.add(childUnit1.id, null, childAction2));
-      store.dispatch(actions.actions.add(childUnit1.id, childAction2.id, childAction3));
+      store.dispatch(actions.actions.add(townCenter.id, null, townCenterAction3));
+      store.dispatch(actions.actions.add(townCenter.id, townCenterAction3.id, townCenterAction1));
+      store.dispatch(actions.units.add(childUnit, townCenterAction1.id, townCenterAction2));
+      store.dispatch(actions.actions.add(childUnit.id, null, childUnitAction1));
+      store.dispatch(actions.actions.add(childUnit.id, childUnitAction1.id, childUnitAction2));
 
-      store.dispatch(actions.units.remove(unit1.id));
+      store.dispatch(actions.units.remove(townCenter.id));
 
       const stateJson = JSON.stringify(store.getState());
 
-      expect(stateJson).not.toContain(rootAction1.id);
-      expect(stateJson).not.toContain(rootAction2.id);
-      expect(stateJson).not.toContain(childAction1.id);
-      expect(stateJson).not.toContain(childAction2.id);
-      expect(stateJson).not.toContain(childAction3.id);
-      expect(stateJson).not.toContain(childUnit1.id);
+      expect(stateJson).not.toContain(townCenterAction1.id);
+      expect(stateJson).not.toContain(townCenterAction2.id);
+      expect(stateJson).not.toContain(townCenterAction3.id);
+      expect(stateJson).not.toContain(childUnitAction1.id);
+      expect(stateJson).not.toContain(childUnitAction2.id);
+      expect(stateJson).not.toContain(childUnit.id);
     });
   });
 });

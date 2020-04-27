@@ -3,16 +3,12 @@ import React, { useState } from 'react';
 import * as config from '../config';
 
 const ActionSelector = ({
-  unit,
+  unitKey,
   onSelect,
 }) => {
   const [selectedAction, setSelectedAction] = useState('');
-  const actionKeys = config.units[unit].actions || [];
-  const actions = actionKeys
-    .map(actionKey => ({
-      key: actionKey,
-      name: config.actions[actionKey].name,
-    }));
+  const actionKeys = config.units[unitKey].actions ? Object.keys(config.units[unitKey].actions) || [] : [];
+  const actions = actionKeys.map(actionKey => config.units[unitKey].actions[actionKey]);
 
   const handleSelect = event => {
     onSelect(event.target.value);
