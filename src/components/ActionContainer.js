@@ -16,8 +16,8 @@ const mapStateToProps = () => {
   });
 };
 
-const mapDispatchToProps = (dispatch, { id, unitId }) => ({
-  remove: () => dispatch(actions.actions.remove(id, unitId)),
+const mapDispatchToProps = (dispatch, { id }) => ({
+  remove: () => dispatch(actions.actions.remove(id)),
 });
 
 export default connect(
@@ -29,6 +29,7 @@ export default connect(
   remove,
 }) => {
   if (action.type === placeholderActionType) return <PlaceholderAction action={action} />;
+  // TODO: think we can remove unitId here.
   if (action.isContinuous) return <ContinuousActionContainer key={action.id} unitId={unitId} action={action} remove={remove} />;
   return <SimpleAction key={action.id} action={action} remove={remove} />;
 });

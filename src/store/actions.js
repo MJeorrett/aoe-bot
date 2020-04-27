@@ -11,7 +11,7 @@ const slice = createSlice({
       state.ids.push(action.id);
       state.items[action.id] = action;
     },
-    remove: (state, { payload: { actionId, unitId } }) => {
+    remove: (state, { payload: { actionId } }) => {
       state.ids = state.ids.filter(id => id !== actionId);
       delete state.items[actionId];
     },
@@ -26,7 +26,7 @@ export const {
 
 export const actions = {
   add: (unitId, prevActionId, action) => slice.actions.add({ unitId, prevActionId, action }),
-  remove: (actionId, unitId) => slice.actions.remove({ unitId, actionId }),
+  remove: (actionId) => slice.actions.remove({ actionId }),
 };
 
 const selectActionsState = state => state[slice.name];

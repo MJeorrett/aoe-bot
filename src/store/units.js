@@ -7,9 +7,13 @@ const slice = createSlice({
     items: {},
   },
   reducers: {
-    'add': (state, { payload: { unit }}) => {
+    add: (state, { payload: { unit }}) => {
       state.ids.push(unit.id);
       state.items[unit.id] = unit;
+    },
+    remove: (state, { payload: { unitId } }) => {
+      state.ids = state.ids.filter(id => id !== unitId);
+      delete state.items[unitId];
     },
   }
 });
@@ -17,10 +21,12 @@ const slice = createSlice({
 export const {
   name: sliceName,
   reducer,
+  actions: internalActions,
 } = slice;
 
 export const actions = {
-  add: unit => slice.actions.add({ unit }),
+  add: (unit, parentActionId) => slice.actions.add({ unit, parentActionId }),
+  remove: unitId => slice.actions.remove({ unitId }),
 };
 
 const selectUnitsState = state => state[slice.name];

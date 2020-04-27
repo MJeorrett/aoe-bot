@@ -1,14 +1,21 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 
-import * as actions from './actions';
+import * as unitsSlice from './units';
+import * as actionsSlice from './actions';
 
 const slice = createSlice({
   name: 'unitActions',
   initialState: {
     actionsByUnit: {},
+    actionParentUnits: {},
   },
   extraReducers: {
-    [actions.internalActions.add]: (state, { payload: { unitId, action } }) => {
+    [unitsSlice.internalActions.remove]: (state, { payload: { unitId } }) => {
+      delete state.actionsByUnit[unitId];
+    },
+    [actionsSlice.internalActions.add]: (state, { payload: { unitId, action } }) => {
+      state.actionParentUnits[action.id] = unitId;
+
       if (state.actionsByUnit[unitId]) {
         state.actionsByUnit[unitId].push(action.id);
       }
@@ -16,8 +23,11 @@ const slice = createSlice({
         state.actionsByUnit[unitId] = [action.id];
       }
     },
-    [actions.internalActions.remove]: (state, { payload: { unitId, actionId } }) => {
-      state.actionsByUnit[unitId] = state.actionsByUnit[unitId].filter(id => id !== actionId);
+    [actionsSlice.internalActions.remove]: (state, { payload: { actionId } }) => {
+      const parentUnitId = state.actionParentUnits[actionId];
+
+      state.actionsByUnit[parentUnitId] = state.actionsByUnit[parentUnitId].filter(id => id !== actionId);
+      delete state.actionParentUnits[actionId];
     },
   },
 });
@@ -29,10 +39,13 @@ export const {
 
 const selectUnitActionsState = state => state[slice.name];
 
+const makeSelectActionIdsForUnit = () => createSelector(
+  selectUnitActionsState,
+  (_, unitId) => unitId,
+  (state, unitId) => state.actionsByUnit[unitId] || [],
+);
+
 export const selectors = {
-  makeSelectActionIdsForUnit: () => createSelector(
-    selectUnitActionsState,
-    (_, unitId) => unitId,
-    (state, unitId) => state.actionsByUnit[unitId] || [],
-  ),
+  makeSelectActionIdsForUnit,
+  actionIdsForUnit: makeSelectActionIdsForUnit(),
 };

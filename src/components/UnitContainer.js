@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch, { id }) => ({
     const producedUnitKey = config.actions[actionKey].produces;
     if (producedUnitKey) {
       const newUnit = createUnit(producedUnitKey, newAction.id);
-      dispatch(actions.units.add(newUnit));
+      dispatch(actions.units.add(newUnit, newAction.id));
       const placeholderAction = createPlaceholderAction(newAction.id);
       dispatch(actions.actions.add(newUnit.id, newAction.id, placeholderAction));
     }

@@ -95,7 +95,7 @@ describe('actions', () => {
     });
 
     it('should remove it from unit action ids', () => {
-      store.dispatch(actions.actions.remove(action1.id, defaultTownCenterId));
+      store.dispatch(actions.actions.remove(action1.id));
       expect(
         selectors.actions.makeSelectActionIdsForUnit()(store.getState(), defaultTownCenterId)
       ).not.toContain(
@@ -104,12 +104,35 @@ describe('actions', () => {
     });
 
     it('should update timeOffset of subsequent actions', () => {
-      store.dispatch(actions.actions.remove(action2.id, defaultTownCenterId));
+      store.dispatch(actions.actions.remove(action2.id));
       expect(
         selectors.actions.makeSelectActionById()(store.getState(), action3.id).timeOffset,
       ).toEqual(
         action1.time
       );
+    });
+
+    it('should remove all traces of action', () => {
+      store.dispatch(actions.actions.remove(action1.id));
+      expect(
+        JSON.stringify(store.getState())
+      ).not.toContain(
+        action1.id
+      );
+    });
+
+    it('should remove child units and their actions', () => {
+      const childUnit = createUnit(config.unitKeys.townCenter);
+      const childUnitChildAction = createAction(config.actionKeys.createVillager);
+
+      store.dispatch(actions.units.add(childUnit, action1.id));
+      store.dispatch(actions.actions.add(childUnit.id, null, childUnitChildAction));
+      store.dispatch(actions.actions.remove(action1.id));
+
+      const stateJson = JSON.stringify(store.getState());
+      
+      expect(stateJson).not.toContain(childUnit.id);
+      expect(stateJson).not.toContain(childUnitChildAction.id);
     });
   });
 
