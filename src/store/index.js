@@ -32,15 +32,30 @@ const removeActionAndChildUnits = (dispatch, state, childUnitByAction, actionId)
   dispatch(actionsSlice.actions.remove(actionId));
 };
 
+const cascadeRemoveAction = (dispatch, state, actionId) => {
+  const childUnitByAction = actionUnitsSlice.selectors.childUnitByAction(state);
+  removeActionAndChildUnits(dispatch, state, childUnitByAction, actionId);
+}
+
 export const actions = {
-  units: unitsSlice.actions,
+  units: {
+    ...unitsSlice.actions,
+    remove: unitId => (dispatch, getState) => {
+      const state = getState();
+      const childActionIds = unitActionsSlice.selectors.actionIdsForUnit(state, unitId);
+      childActionIds.forEach(childActionId => {
+        cascadeRemoveAction(dispatch, state, childActionId);
+      });
+
+      dispatch(unitsSlice.actions.remove(unitId));
+    },
+  },
   actions: {
     ...actionsSlice.actions,
     ...timingSlice.actions,
+    // TODO: remove unitId parameter.
     remove: (actionId, unitId) => (dispatch, getState) => {
-      const state = getState();
-      const childUnitByAction = actionUnitsSlice.selectors.childUnitByAction(state);
-      removeActionAndChildUnits(dispatch, state, childUnitByAction, actionId);
+      cascadeRemoveAction(dispatch, getState(), actionId);
     },
   },
   timeline: timelineSlice.actions,
