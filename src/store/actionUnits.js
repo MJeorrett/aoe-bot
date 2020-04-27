@@ -33,4 +33,9 @@ export const selectors = {
     selectActionUnitsState,
     state => state.childUnitByAction,
   ),
+  makeSelectParentActionForUnit: () => createSelector(
+    selectActionUnitsState,
+    (_, unitId) => unitId,
+    (state, unitId) => state.parentActionByUnit[unitId],
+  ),
 };

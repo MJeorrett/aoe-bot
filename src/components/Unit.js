@@ -6,6 +6,7 @@ import PlaceholderAction from './PlaceholderAction';
 
 const Unit = ({
   unit,
+  parentActionId,
   timing,
   actionIds,
   addAction,
@@ -20,7 +21,17 @@ const Unit = ({
       display: 'flex',
       marginBottom: '10px',
     }}>
-      <button onClick={deleteUnit} style={{ color: 'red', borderColor: 'red', cursor: 'pointer' }}>X</button>
+      <button
+        onClick={deleteUnit}
+        style={{
+          color: parentActionId ? 'grey': 'red',
+          borderColor: parentActionId ? 'grey' : 'red',
+          cursor: 'default',
+        }}
+        disabled={parentActionId}
+      >
+        X
+      </button>
       <h3 style={{
         minWidth: '150px',
         height: '35px',

@@ -62,7 +62,10 @@ export const actions = {
 };
 
 export const selectors = {
-  units: unitsSlice.selectors,
+  units: {
+    ...unitsSlice.selectors,
+    makeSelectParentActionIdById: actionUnitsSlice.selectors.makeSelectParentActionForUnit,
+  },
   actions: {
   // TODO: make consumers stitch timings and actions together themselves.
     all: createSelector(
