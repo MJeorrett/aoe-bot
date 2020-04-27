@@ -1,13 +1,11 @@
 import generateId from '../utils/generateId';
 import * as config from '../config';
 
-export const placeholderActionType = 'null';
-
-export const createAction = (key) => {
+export const createAction = (key, forceId) => {
   const action = config.actions[key];
 
   return {
-    id: generateId(),
+    id: forceId || generateId(),
     type: key,
     name: action.name,
     time: action.isContinuous ? 25 : action.time,
@@ -18,9 +16,3 @@ export const createAction = (key) => {
     gold: action.gold || 0,
   };
 };
-
-export const createPlaceholderAction = () => ({
-  id: generateId(),
-  type: placeholderActionType,
-  time: 1, // set by reducer,
-});

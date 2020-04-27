@@ -1,18 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { placeholderActionType } from '../models/action';
 import { actions, selectors } from '../store';
 
 import ContinuousActionContainer from './ContinuousActionContainer';
-import PlaceholderAction from './PlaceholderAction';
 import SimpleAction from './SimpleAction';
 
 const mapStateToProps = () => {
   const selectActionById = selectors.actions.makeSelectActionById();
+  const selectTimingById = selectors.timing.makeSelectOffsetAndDurationForAction();
 
   return (state, { id }) => ({
     action: selectActionById(state, id),
+    timing: selectTimingById(state, id),
   });
 };
 
@@ -26,10 +26,10 @@ export default connect(
 )(({
   unitId,
   action,
+  timing,
   remove,
 }) => {
-  if (action.type === placeholderActionType) return <PlaceholderAction action={action} />;
   // TODO: think we can remove unitId here.
   if (action.isContinuous) return <ContinuousActionContainer key={action.id} unitId={unitId} action={action} remove={remove} />;
-  return <SimpleAction key={action.id} action={action} remove={remove} />;
+  return <SimpleAction key={action.id} action={action} timing={timing} remove={remove} />;
 });

@@ -3,13 +3,12 @@ import React from 'react';
 import constants from '../constants';
 
 const PlaceholderAction = ({
-  action,
-  setTime,
+  duration
 }) => {
   return (
     <div style={{
-      minWidth: `${action.time * constants.secondWidth}px`,
-      maxWidth: `${action.time * constants.secondWidth}px`,
+      minWidth: `${duration * constants.secondWidth}px`,
+      maxWidth: `${duration * constants.secondWidth}px`,
     }} />
   );
 };

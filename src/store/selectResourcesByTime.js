@@ -3,11 +3,11 @@ import { createSelector } from '@reduxjs/toolkit';
 import constants from '../constants';
 
 import * as actionsSlice from './actions';
-import * as actionTimingsSlice from './actionTimings';
+import * as timingSlice from './timing';
 
 const selectResourcesByTime = createSelector(
   actionsSlice.selectors.all,
-  actionTimingsSlice.selectors.all,
+  timingSlice.selectors.all,
   (rawActions, actionTimings) => {
     const unsortedActions = rawActions.map(action => ({
       ...action,

@@ -2,7 +2,7 @@ import { configureStore, createSelector } from '@reduxjs/toolkit';
 
 import * as unitsSlice from './units';
 import * as actionsSlice from './actions';
-import * as actionTimingsSlice from './actionTimings';
+import * as timingSlice from './timing';
 import * as unitActionsSlice from './unitActions';
 import * as actionUnitsSlice from './actionUnits';
 import * as timelineSlice from './timeline';
@@ -13,7 +13,7 @@ const store = configureStore({
   reducer: {
     [unitsSlice.sliceName]: unitsSlice.reducer,
     [actionsSlice.sliceName]: actionsSlice.reducer,
-    [actionTimingsSlice.sliceName]: actionTimingsSlice.reducer,
+    [timingSlice.sliceName]: timingSlice.reducer,
     [unitActionsSlice.sliceName]: unitActionsSlice.reducer,
     [actionUnitsSlice.sliceName]: actionUnitsSlice.reducer,
     [timelineSlice.sliceName]: timelineSlice.reducer,
@@ -36,7 +36,7 @@ export const actions = {
   units: unitsSlice.actions,
   actions: {
     ...actionsSlice.actions,
-    ...actionTimingsSlice.actions,
+    ...timingSlice.actions,
     remove: (actionId, unitId) => (dispatch, getState) => {
       const state = getState();
       const childUnitByAction = actionUnitsSlice.selectors.childUnitByAction(state);
@@ -49,9 +49,10 @@ export const actions = {
 export const selectors = {
   units: unitsSlice.selectors,
   actions: {
+  // TODO: make consumers stitch timings and actions together themselves.
     all: createSelector(
       actionsSlice.selectors.all,
-      actionTimingsSlice.selectors.all,
+      timingSlice.selectors.all,
       (actions, actionTimings) => actions.map(action => ({
         ...action,
         ...actionTimings.find(actionTiming => actionTiming.id === action.id),
@@ -59,7 +60,7 @@ export const selectors = {
     ),
     makeSelectActionById: () => createSelector(
       actionsSlice.selectors.makeSelectActionById(),
-      actionTimingsSlice.selectors.makeSelectOffsetAndDurationForAction(),
+      timingSlice.selectors.makeSelectOffsetAndDurationForAction(),
       (action, actionTiming) => ({
         ...action,
         ...actionTiming,
@@ -67,6 +68,7 @@ export const selectors = {
     ),
     ...unitActionsSlice.selectors,
   },
+  timing: timingSlice.selectors,
   timeline: timelineSlice.selectors,
   meta: {
     resourcesByTime: selectResourcesByTime,

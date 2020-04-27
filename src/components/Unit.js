@@ -2,9 +2,11 @@ import React from 'react';
 
 import ActionContainer from './ActionContainer';
 import ActionSelector from './ActionSelector';
+import PlaceholderAction from './PlaceholderAction';
 
 const Unit = ({
   unit,
+  timing,
   actionIds,
   addAction,
 }) => {
@@ -23,6 +25,7 @@ const Unit = ({
         margin: 0,
         backgroundColor: 'lightGrey',
       }}>{unit.name}</h3>
+      {timing.timeOffset > 0 && <PlaceholderAction duration={timing.timeOffset} />}
       {actionIds.map(actionId => (
         <ActionContainer key={actionId} unitId={unit.id} id={actionId} />
       ))}

@@ -25,6 +25,7 @@ export const {
 } = slice;
 
 export const actions = {
+  // TODO: move prevActionId parameter to end as it is optional
   add: (unitId, prevActionId, action) => slice.actions.add({ unitId, prevActionId, action }),
   remove: (actionId) => slice.actions.remove({ actionId }),
 };

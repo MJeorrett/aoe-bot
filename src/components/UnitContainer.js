@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { selectors, actions } from '../store';
-import { createAction, createPlaceholderAction } from '../models/action';
+import { createAction } from '../models/action';
 import { createUnit } from '../models/unit';
 import * as config from '../config';
 
@@ -10,9 +10,11 @@ import Unit from './Unit';
 const mapStateToProps = () => {
   const selectUnitById = selectors.units.makeSelectById();
   const selectActionIdsForUnit = selectors.actions.makeSelectActionIdsForUnit();
+  const selectTimingById = selectors.timing.makeSelectOffsetAndDurationForAction();
   
   return (state, { id }) => ({
     unit: selectUnitById(state, id),
+    timing: selectTimingById(state, id),
     actionIds: selectActionIdsForUnit(state, id),
   });
 };
@@ -24,10 +26,8 @@ const mapDispatchToProps = (dispatch, { id }) => ({
 
     const producedUnitKey = config.actions[actionKey].produces;
     if (producedUnitKey) {
-      const newUnit = createUnit(producedUnitKey, newAction.id);
+      const newUnit = createUnit(producedUnitKey);
       dispatch(actions.units.add(newUnit, newAction.id));
-      const placeholderAction = createPlaceholderAction(newAction.id);
-      dispatch(actions.actions.add(newUnit.id, newAction.id, placeholderAction));
     }
   },
 });

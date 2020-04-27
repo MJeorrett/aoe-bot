@@ -2,7 +2,7 @@ import { actions, selectors } from './index';
 
 import * as config from '../config';
 import constants from '../constants';
-import { createAction, createPlaceholderAction } from '../models/action';
+import { createAction } from '../models/action';
 import { createUnit } from '../models/unit';
 
 describe('actions', () => {
@@ -14,11 +14,11 @@ describe('actions', () => {
   const getActionById = (id) => selectors.actions.makeSelectActionById()(store.getState(), id);
 
   const createDefaultUnits = () => {
-    const townCenter = createUnit(config.unitKeys.townCenter);
+    const townCenter = createUnit(config.unitKeys.townCenter, 'default-towncenter');
     const villagers = [
-      createUnit(config.unitKeys.villager),
-      createUnit(config.unitKeys.villager),
-      createUnit(config.unitKeys.villager),
+      createUnit(config.unitKeys.villager, 'default-villager-1'),
+      createUnit(config.unitKeys.villager, 'default-villager-1'),
+      createUnit(config.unitKeys.villager, 'default-villager-1'),
     ];
 
     store.dispatch(actions.units.add(townCenter))
@@ -41,6 +41,7 @@ describe('actions', () => {
     let firstAction;
 
     beforeEach(() => {
+      createDefaultUnits();
       firstAction = createAction(config.actionKeys.createVillager);
       store.dispatch(actions.actions.add(defaultTownCenterId, null, firstAction));
     });
@@ -86,9 +87,10 @@ describe('actions', () => {
     let action3;
 
     beforeEach(() => {
-      action1 = createAction(config.actionKeys.createVillager);
-      action2 = createAction(config.actionKeys.createVillager);
-      action3 = createAction(config.actionKeys.createVillager);
+      createDefaultUnits();
+      action1 = createAction(config.actionKeys.createVillager, 'action1');
+      action2 = createAction(config.actionKeys.createVillager, 'action2');
+      action3 = createAction(config.actionKeys.createVillager, 'action3');
       store.dispatch(actions.actions.add(defaultTownCenterId, null, action1));
       store.dispatch(actions.actions.add(defaultTownCenterId, action1.id, action2));
       store.dispatch(actions.actions.add(defaultTownCenterId, action2.id, action3));
@@ -106,7 +108,7 @@ describe('actions', () => {
     it('should update timeOffset of subsequent actions', () => {
       store.dispatch(actions.actions.remove(action2.id));
       expect(
-        selectors.actions.makeSelectActionById()(store.getState(), action3.id).timeOffset,
+        getActionById(action3.id).timeOffset,
       ).toEqual(
         action1.time
       );
@@ -130,38 +132,39 @@ describe('actions', () => {
       store.dispatch(actions.actions.remove(action1.id));
 
       const stateJson = JSON.stringify(store.getState());
-      
+
       expect(stateJson).not.toContain(childUnit.id);
       expect(stateJson).not.toContain(childUnitChildAction.id);
     });
   });
 
+  // TODO: move to timing.test.js
   describe('setTime', () => {
     describe('simple cases', () => {
 
       let action1;
       let action2;
       let action3;
-  
+
       beforeEach(() => {
         createDefaultUnits();
         action1 = { ...createAction(config.actionKeys.forage), time: 10 };
         action2 = { ...createAction(config.actionKeys.forage), time: 20 };
         action3 = { ...createAction(config.actionKeys.forage), time: 30 };
-  
+
         store.dispatch(actions.actions.add(defaultVillagerIds[0], null, action1));
         store.dispatch(actions.actions.add(defaultVillagerIds[0], action1.id, action2));
         store.dispatch(actions.actions.add(defaultVillagerIds[0], action2.id, action3));
       });
-  
+
       it('should update offset of following action', () => {
         store.dispatch(actions.actions.setTime(action2.id, 7));
-  
+
         expect(
           getActionById(action3.id).timeOffset
         ).toEqual(17);
       });
-  
+
       it('should update offset of following actions', () => {
         store.dispatch(actions.actions.setTime(action1.id, 13));
         expect(
@@ -171,12 +174,12 @@ describe('actions', () => {
           getActionById(action3.id).timeOffset
         ).toEqual(33);
       });
-  
+
       it('should update multiple child action offsets', () => {
         const action2SecondChild = createAction(config.actionKeys.mineStone);
         store.dispatch(actions.actions.add(defaultVillagerIds[0], action2.id, action2SecondChild));
         store.dispatch(actions.actions.setTime(action2.id, 7));
-  
+
         expect(
           getActionById(action3.id).timeOffset
         ).toEqual(17);
@@ -187,37 +190,37 @@ describe('actions', () => {
     });
 
     describe('complex cases', () => {
-      it('should update multiple child placeholder actions', () => {
+      it('should update multiple child actions', () => {
         createDefaultUnits();
-        const idleAction = { ...createAction(config.actionKeys.idle), time: 20 };
-        const parentAction1 = createAction(config.actionKeys.createVillager);
-        const parentAction2 = createAction(config.actionKeys.createVillager);
-        const parentAction3 = createAction(config.actionKeys.createVillager);
-        const childPlaceholder1 = createPlaceholderAction();
-        const childPlaceholder2 = createPlaceholderAction();
-        const childPlaceholder3 = createPlaceholderAction();
+        const idleAction = { ...createAction(config.actionKeys.idle), time: 20, id: 'idle-action' };
+        const createVillagerRoot1 = createAction(config.actionKeys.createVillager, 'create-villager-root-1');
+        const createVillagerRoot2 = createAction(config.actionKeys.createVillager, 'create-villager-root-2');
+        const createVillagerRoot3 = createAction(config.actionKeys.createVillager, 'create-villager-root-3');
+        const childVillager = createUnit(config.unitKeys.villager, 'child-villager');
+        const childVillagerForage = createAction(config.actionKeys.forage, 'child-villager-forage');
 
         store.dispatch(actions.actions.add(defaultTownCenterId, null, idleAction));
-        store.dispatch(actions.actions.add(defaultTownCenterId, idleAction.id, parentAction1));
-        store.dispatch(actions.actions.add(defaultTownCenterId, parentAction1.id, parentAction2));
-        store.dispatch(actions.actions.add(defaultTownCenterId, parentAction2.id, parentAction3));
-        store.dispatch(actions.actions.add(defaultTownCenterId, parentAction1.id, childPlaceholder1));
-        store.dispatch(actions.actions.add(defaultTownCenterId, parentAction2.id, childPlaceholder2));
-        store.dispatch(actions.actions.add(defaultTownCenterId, parentAction3.id, childPlaceholder3));
+        store.dispatch(actions.actions.add(defaultTownCenterId, idleAction.id, createVillagerRoot1));
+        store.dispatch(actions.actions.add(defaultTownCenterId, createVillagerRoot1.id, createVillagerRoot2));
+        store.dispatch(actions.actions.add(defaultTownCenterId, createVillagerRoot2.id, createVillagerRoot3));
+        store.dispatch(actions.units.add(childVillager, createVillagerRoot1.id));
+        store.dispatch(actions.actions.add(childVillager.id, null, childVillagerForage));
 
         store.dispatch(actions.actions.setTime(idleAction.id, 35));
 
+        const state = store.getState();
+
         resourcesByTime = getResourcesByTime();
 
-        expect(
-          getActionById(childPlaceholder1.id).time
-        ).toEqual(35 + config.actions.createVillager.time);
-        expect(
-          getActionById(childPlaceholder2.id).time
-        ).toEqual(35 + (config.actions.createVillager.time * 2));
-        expect(
-          getActionById(childPlaceholder3.id).time
-        ).toEqual(35 + (config.actions.createVillager.time * 3));
+        expect(getActionById(createVillagerRoot1.id).timeOffset)
+          .toEqual(35);
+        expect(getActionById(createVillagerRoot2.id).timeOffset)
+          .toEqual(35 + config.actions.createVillager.time);
+        expect(getActionById(createVillagerRoot3.id).timeOffset)
+          .toEqual(35 + (config.actions.createVillager.time * 2));
+
+        expect(getActionById(childVillagerForage.id).timeOffset)
+          .toEqual(35 + config.actions.createVillager.time);
       });
     });
   });
