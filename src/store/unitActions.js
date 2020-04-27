@@ -7,14 +7,14 @@ const slice = createSlice({
   name: 'unitActions',
   initialState: {
     actionsByUnit: {},
-    actionParentUnits: {},
+    parentUnitByAction: {},
   },
   extraReducers: {
     [unitsSlice.internalActions.remove]: (state, { payload: { unitId } }) => {
       delete state.actionsByUnit[unitId];
     },
     [actionsSlice.internalActions.add]: (state, { payload: { unitId, action } }) => {
-      state.actionParentUnits[action.id] = unitId;
+      state.parentUnitByAction[action.id] = unitId;
 
       if (state.actionsByUnit[unitId]) {
         state.actionsByUnit[unitId].push(action.id);
@@ -24,10 +24,10 @@ const slice = createSlice({
       }
     },
     [actionsSlice.internalActions.remove]: (state, { payload: { actionId } }) => {
-      const parentUnitId = state.actionParentUnits[actionId];
+      const parentUnitId = state.parentUnitByAction[actionId];
 
       state.actionsByUnit[parentUnitId] = state.actionsByUnit[parentUnitId].filter(id => id !== actionId);
-      delete state.actionParentUnits[actionId];
+      delete state.parentUnitByAction[actionId];
     },
   },
 });
