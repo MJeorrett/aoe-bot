@@ -40,12 +40,12 @@ describe('units', () => {
         .not.toContain(townCenter.id);
     });
     it('should remove child actions and units', () => {
-      const townCenterAction1 = createAction(townCenterActions.idle.key, unitKeys.townCenter);
-      const townCenterAction2 = createAction(townCenterActions.idle.key, unitKeys.townCenter);
-      const townCenterAction3 = createAction(townCenterActions.createVillager.key, unitKeys.townCenter);
+      const townCenterAction1 = createAction(townCenterActions.idle);
+      const townCenterAction2 = createAction(townCenterActions.idle);
+      const townCenterAction3 = createAction(townCenterActions.createVillager);
       const childUnit = createUnit(unitKeys.villager);
-      const childUnitAction1 = createAction(villagerActions.forage.key, unitKeys.villager);
-      const childUnitAction2 = createAction(villagerActions.forage.key, unitKeys.villager);
+      const childUnitAction1 = createAction(villagerActions.forage);
+      const childUnitAction2 = createAction(villagerActions.forage);
 
       store.dispatch(actions.actions.add(townCenter.id, null, townCenterAction3));
       store.dispatch(actions.actions.add(townCenter.id, townCenterAction3.id, townCenterAction1));

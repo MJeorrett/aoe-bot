@@ -6,20 +6,20 @@ const ActionSelector = ({
   unitKey,
   onSelect,
 }) => {
+  const actions = config.units[unitKey].actions;
   const [selectedAction, setSelectedAction] = useState('');
-  const actionKeys = config.units[unitKey].actions ? Object.keys(config.units[unitKey].actions) || [] : [];
-  const actions = actionKeys.map(actionKey => config.units[unitKey].actions[actionKey]);
+  const actionKeys = actions ? Object.keys(actions) || [] : [];
 
   const handleSelect = event => {
-    onSelect(event.target.value);
+    onSelect(actions[event.target.value]);
     setSelectedAction('');
   };
 
   return (
     <select value={selectedAction} onChange={handleSelect} tabIndex="-1">
       <option value="" disabled>Add action</option>
-      {actions.map(action => (
-        <option key={action.key} value={action.key}>{action.name}</option>
+      {actionKeys.map(actionKey => (
+        <option key={actionKey} value={actionKey}>{actions[actionKey].name}</option>
       ))}
     </select>
   );

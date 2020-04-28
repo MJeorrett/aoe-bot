@@ -164,11 +164,3 @@ export const units = {
 
 export const villagerActions = units.villager.actions;
 export const townCenterActions = units.townCenter.actions;
-
-
-// Add key to all actions.
-Object.keys(units).forEach(unitKey => {
-  Object.keys(units[unitKey].actions || []).forEach(actionKey => {
-    units[unitKey].actions[actionKey].key = actionKey;
-  });
-});

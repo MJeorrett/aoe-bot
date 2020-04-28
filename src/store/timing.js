@@ -75,7 +75,6 @@ const slice = createSlice({
       state.items[action.id] = {
         id: action.id,
         type: 'action',
-        actionType: action.type,
         duration: action.time,
         offset: timingParent.offset + timingParent.duration,
       }

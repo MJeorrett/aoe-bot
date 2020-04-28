@@ -42,7 +42,7 @@ describe('actions', () => {
 
     beforeEach(() => {
       createDefaultUnits();
-      firstAction = createAction(townCenterActions.createVillager.key, unitKeys.townCenter);
+      firstAction = createAction(townCenterActions.createVillager);
       store.dispatch(actions.actions.add(defaultTownCenterId, null, firstAction));
     });
 
@@ -73,7 +73,7 @@ describe('actions', () => {
     });
 
     it('should set offsetTime of second action to time of previous action', () => {
-      const secondAction = createAction(townCenterActions.createVillager.key, unitKeys.townCenter);
+      const secondAction = createAction(townCenterActions.createVillager);
       store.dispatch(actions.actions.add(defaultTownCenterId, firstAction.id, secondAction));
       expect(
         getActionById(secondAction.id).timeOffset
@@ -88,9 +88,9 @@ describe('actions', () => {
 
     beforeEach(() => {
       createDefaultUnits();
-      action1 = createAction(townCenterActions.createVillager.key, unitKeys.townCenter, 'action1');
-      action2 = createAction(townCenterActions.createVillager.key, unitKeys.townCenter, 'action2');
-      action3 = createAction(townCenterActions.createVillager.key, unitKeys.townCenter, 'action3');
+      action1 = createAction(townCenterActions.createVillager, 'action1');
+      action2 = createAction(townCenterActions.createVillager, 'action2');
+      action3 = createAction(townCenterActions.createVillager, 'action3');
       store.dispatch(actions.actions.add(defaultTownCenterId, null, action1));
       store.dispatch(actions.actions.add(defaultTownCenterId, action1.id, action2));
       store.dispatch(actions.actions.add(defaultTownCenterId, action2.id, action3));
@@ -125,7 +125,7 @@ describe('actions', () => {
 
     it('should remove child units and their actions', () => {
       const childUnit = createUnit(unitKeys.townCenter);
-      const childUnitChildAction = createAction(townCenterActions.createVillager.key, unitKeys.townCenter);
+      const childUnitChildAction = createAction(townCenterActions.createVillager);
 
       store.dispatch(actions.units.add(childUnit, action1.id));
       store.dispatch(actions.actions.add(childUnit.id, null, childUnitChildAction));
@@ -148,9 +148,9 @@ describe('actions', () => {
 
       beforeEach(() => {
         createDefaultUnits();
-        action1 = { ...createAction(villagerActions.forage.key, unitKeys.villager), time: 10 };
-        action2 = { ...createAction(villagerActions.forage.key, unitKeys.villager), time: 20 };
-        action3 = { ...createAction(villagerActions.forage.key, unitKeys.villager), time: 30 };
+        action1 = { ...createAction(villagerActions.forage), time: 10 };
+        action2 = { ...createAction(villagerActions.forage), time: 20 };
+        action3 = { ...createAction(villagerActions.forage), time: 30 };
 
         store.dispatch(actions.actions.add(defaultVillagerIds[0], null, action1));
         store.dispatch(actions.actions.add(defaultVillagerIds[0], action1.id, action2));
@@ -176,7 +176,7 @@ describe('actions', () => {
       });
 
       it('should update multiple child action offsets', () => {
-        const action2SecondChild = createAction(villagerActions.mineStone.key, unitKeys.villager);
+        const action2SecondChild = createAction(villagerActions.mineStone);
         store.dispatch(actions.actions.add(defaultVillagerIds[0], action2.id, action2SecondChild));
         store.dispatch(actions.actions.setTime(action2.id, 7));
 
@@ -192,12 +192,12 @@ describe('actions', () => {
     describe('complex cases', () => {
       it('should update multiple child actions', () => {
         createDefaultUnits();
-        const idleAction = { ...createAction(townCenterActions.idle.key, unitKeys.townCenter), time: 20, id: 'idle-action' };
-        const createVillagerRoot1 = createAction(townCenterActions.createVillager.key, unitKeys.townCenter, 'create-villager-root-1');
-        const createVillagerRoot2 = createAction(townCenterActions.createVillager.key, unitKeys.townCenter, 'create-villager-root-2');
-        const createVillagerRoot3 = createAction(townCenterActions.createVillager.key, unitKeys.townCenter, 'create-villager-root-3');
-        const childVillager = createUnit(unitKeys.villager, unitKeys.villager, 'child-villager');
-        const childVillagerForage = createAction(villagerActions.forage.key, unitKeys.villager, 'child-villager-forage');
+        const idleAction = { ...createAction(townCenterActions.idle), time: 20, id: 'idle-action' };
+        const createVillagerRoot1 = createAction(townCenterActions.createVillager, 'create-villager-root-1');
+        const createVillagerRoot2 = createAction(townCenterActions.createVillager, 'create-villager-root-2');
+        const createVillagerRoot3 = createAction(townCenterActions.createVillager, 'create-villager-root-3');
+        const childVillager = createUnit(unitKeys.villager, 'child-villager');
+        const childVillagerForage = createAction(villagerActions.forage, 'child-villager-forage');
 
         store.dispatch(actions.actions.add(defaultTownCenterId, null, idleAction));
         store.dispatch(actions.actions.add(defaultTownCenterId, idleAction.id, createVillagerRoot1));
@@ -230,7 +230,7 @@ describe('actions', () => {
     describe('food', () => {
       beforeEach(() => {
         createDefaultUnits();
-        action = createAction(villagerActions.forage.key, unitKeys.villager);
+        action = createAction(villagerActions.forage);
         store.dispatch(actions.actions.add(defaultVillagerIds[0], null, action));
         resourcesByTime = getResourcesByTime();
       });
@@ -255,7 +255,7 @@ describe('actions', () => {
     describe('wood', () => {
       beforeEach(() => {
         createDefaultUnits();
-        action = createAction(villagerActions.lumberjack.key, unitKeys.villager);
+        action = createAction(villagerActions.lumberjack);
         store.dispatch(actions.actions.add(defaultVillagerIds[0], null, action));
         resourcesByTime = getResourcesByTime();
       });
@@ -280,7 +280,7 @@ describe('actions', () => {
     describe('stone', () => {
       beforeEach(() => {
         createDefaultUnits();
-        action = createAction(villagerActions.mineStone.key, unitKeys.villager);
+        action = createAction(villagerActions.mineStone);
         store.dispatch(actions.actions.add(defaultVillagerIds[0], null, action));
         resourcesByTime = getResourcesByTime();
       });
@@ -305,7 +305,7 @@ describe('actions', () => {
     describe('gold', () => {
       beforeEach(() => {
         createDefaultUnits();
-        action = createAction(villagerActions.mineGold.key, unitKeys.villager);
+        action = createAction(villagerActions.mineGold);
         store.dispatch(actions.actions.add(defaultVillagerIds[0], null, action));
         resourcesByTime = getResourcesByTime();
       });
@@ -332,7 +332,7 @@ describe('actions', () => {
     describe('food', () => {
       beforeEach(() => {
         createDefaultUnits();
-        store.dispatch(actions.actions.add(defaultTownCenterId, null, createAction(townCenterActions.createVillager.key, unitKeys.townCenter)));
+        store.dispatch(actions.actions.add(defaultTownCenterId, null, createAction(townCenterActions.createVillager)));
       });
 
       it('should remove resources from time slice 0', () => {
@@ -342,7 +342,7 @@ describe('actions', () => {
     describe('wood', () => {
       beforeEach(() => {
         createDefaultUnits();
-        store.dispatch(actions.actions.add(defaultTownCenterId, null, createAction(villagerActions.buildBarracks.key, unitKeys.villager)));
+        store.dispatch(actions.actions.add(defaultTownCenterId, null, createAction(villagerActions.buildBarracks)));
       });
 
       it('should remove resources from time slice 0', () => {

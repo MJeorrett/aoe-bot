@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { selectors, actions } from '../store';
 import { createAction } from '../models/action';
 import { createUnit } from '../models/unit';
-import * as config from '../config';
 
 import Unit from './Unit';
 
@@ -22,13 +21,12 @@ const mapStateToProps = () => {
 };
 
 const mapDispatchToProps = (dispatch, { id }) => ({
-  addAction: (actionKey, prevActionId, unitKey) => {
-    const newAction = createAction(actionKey, unitKey);
+  addAction: (actionConfig, prevActionId, unitKey) => {
+    const newAction = createAction(actionConfig);
     dispatch(actions.actions.add(id, prevActionId, newAction));
 
-    const producedUnitKey = config.units[unitKey].actions[actionKey].produces;
-    if (producedUnitKey) {
-      const newUnit = createUnit(producedUnitKey);
+    if (actionConfig.produces) {
+      const newUnit = createUnit(actionConfig.produces);
       dispatch(actions.units.add(newUnit, newAction.id));
     }
   },
