@@ -1,7 +1,6 @@
 import React from 'react';
 
 import ActionContainer from './ActionContainer';
-import ActionSelector from './ActionSelector';
 import PlaceholderAction from './PlaceholderAction';
 
 const Unit = ({
@@ -12,9 +11,7 @@ const Unit = ({
   addAction,
   select,
 }) => {
-  const handleAddAction = actionKey => {
-    addAction(actionKey, actionIds[actionIds.length - 1] || null, unit.key);
-  };
+  
 
   return (
     <div
@@ -29,6 +26,7 @@ const Unit = ({
           height: '35px',
           margin: 0,
           backgroundColor: 'lightGrey',
+          cursor: 'pointer',
         }}
         onClick={select}
       >
@@ -38,7 +36,6 @@ const Unit = ({
       {actionIds.map(actionId => (
         <ActionContainer key={actionId} unitId={unit.id} id={actionId} />
       ))}
-      <ActionSelector unitKey={unit.key} onSelect={handleAddAction} />
     </div>
   );
 };

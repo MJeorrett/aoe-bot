@@ -14,6 +14,7 @@ const Action = ({
         backgroundColor: 'lightgreen',
         minWidth: `${action.time * constants.secondWidth}px`,
         maxWidth: `${action.time * constants.secondWidth}px`,
+        cursor: 'pointer',
       }}
       onClick={select}
     >

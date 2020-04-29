@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
 
 import { selectors, actions } from '../store';
-import { createAction } from '../models/action';
-import { createUnit } from '../models/unit';
 
 import Unit from './Unit';
 
@@ -21,15 +19,6 @@ const mapStateToProps = () => {
 };
 
 const mapDispatchToProps = (dispatch, { id }) => ({
-  addAction: (actionConfig, prevActionId, unitKey) => {
-    const newAction = createAction(actionConfig);
-    dispatch(actions.actions.add(id, prevActionId, newAction));
-
-    if (actionConfig.produces) {
-      const newUnit = createUnit(actionConfig.produces);
-      dispatch(actions.units.add(newUnit, newAction.id));
-    }
-  },
   select: () => dispatch(actions.control.setSelectedUnit(id)),
 });
 

@@ -9,6 +9,7 @@ const PlaceholderAction = ({
     <div style={{
       minWidth: `${duration * constants.secondWidth}px`,
       maxWidth: `${duration * constants.secondWidth}px`,
+      backgroundColor: '#EEE',
     }} />
   );
 };
