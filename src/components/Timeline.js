@@ -40,7 +40,8 @@ const Timeline = ({
     }}>
       <h3 style={{
         margin: 0,
-        minWidth: '175px',
+        width: '150px',
+        minWidth: '150px',
         height: '35px',
         backgroundColor: 'lightBlue'
       }}>

@@ -24,6 +24,7 @@ const Unit = ({
     >
       <h3
         style={{
+          width: '150px',
           minWidth: '150px',
           height: '40px',
           margin: 0,
