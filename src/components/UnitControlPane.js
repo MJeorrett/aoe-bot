@@ -15,7 +15,6 @@ const UnitControlPane = ({
     <>
       <h3 style={{ marginTop: 0 }}>Unit: {unit.name}</h3>
       <ActionSelector unitKey={unit.key} onSelect={handleAddAction} />
-      <pre>{JSON.stringify(unit, null, 2)}</pre>
     </>
   );
 };
