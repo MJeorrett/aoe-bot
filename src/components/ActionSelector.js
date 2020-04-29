@@ -5,13 +5,27 @@ import * as config from '../config';
 const ActionSelector = ({
   unitKey,
   onSelect,
+  resourcesByTime,
+  timeOffset,
 }) => {
-  const actions = config.units[unitKey].actions;
   const [selectedAction, setSelectedAction] = useState('');
-  const actionKeys = actions ? Object.keys(actions) || [] : [];
+  
+  const actionConfigs = config.units[unitKey].actions;  
+  const allActionKeys = actionConfigs ? Object.keys(actionConfigs) || [] : [];
+
+  const actionKeys = allActionKeys.filter(actionKey => {
+    const actionConfig = actionConfigs[actionKey];
+    if (actionConfig.prerequisiteBuildings) {
+      const completedRequiredBuildings = resourcesByTime[timeOffset].completedUnits
+        .filter(completedBuildingKey => actionConfig.prerequisiteBuildings.keys.includes(completedBuildingKey));
+      
+      return completedRequiredBuildings.length >= actionConfig.prerequisiteBuildings.count;
+    }
+    return true;
+  });
 
   const handleSelect = event => {
-    onSelect(actions[event.target.value]);
+    onSelect(actionConfigs[event.target.value]);
     setSelectedAction('');
   };
 
@@ -19,7 +33,7 @@ const ActionSelector = ({
     <select value={selectedAction} onChange={handleSelect} tabIndex="-1">
       <option value="" disabled>Add action</option>
       {actionKeys.map(actionKey => (
-        <option key={actionKey} value={actionKey}>{actions[actionKey].name}</option>
+        <option key={actionKey} value={actionKey}>{actionConfigs[actionKey].name}</option>
       ))}
     </select>
   );

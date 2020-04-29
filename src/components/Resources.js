@@ -16,6 +16,7 @@ const Resources = ({
       <>
         <h4 style={{ margin: 0, marginBottom: '0.5em' }}>Food: ---; Wood: ---; Stone: ---; Gold: ---;</h4>
         <h4 style={{ margin: 0 }}>Completed Research: []</h4>
+        <h4 style={{ margin: 0 }}>Completed Buildings: []</h4>
       </>
     );
   }
@@ -29,6 +30,7 @@ const Resources = ({
           renderResource(resources.gold, "Gold", round)}
       </h4>
       <h4 style={{ margin: 0 }}>Completed Research: {resources.completedResearch.join('; ')}</h4>
+      <h4 style={{ margin: 0 }}>Completed Units: {resources.completedUnits.join('; ')}</h4>
     </>
   );
 };

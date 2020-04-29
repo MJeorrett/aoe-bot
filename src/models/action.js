@@ -12,5 +12,6 @@ export const createAction = (actionConfig, forceId) => {
     wood: actionConfig.wood || 0,
     stone: actionConfig.stone || 0,
     gold: actionConfig.gold || 0,
+    produces: actionConfig.produces,
   };
 };

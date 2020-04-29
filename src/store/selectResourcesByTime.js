@@ -21,6 +21,7 @@ const selectResourcesByTime = createSelector(
       stone: constants.startingStone,
       gold: constants.startingGold,
       completedResearch: [],
+      completedUnits: [],
     };
 
     const increments = {
@@ -48,8 +49,10 @@ const selectResourcesByTime = createSelector(
       current.gold += increments.gold;
     };
 
-    const applyInstantActions = (actions) => {
+    const processInstantResources = (actions) => {
       actions.forEach(action => {
+        if (action.isContinuous) return;
+
         if (action.food) current.food += action.food;
         if (action.wood) current.wood += action.wood;
         if (action.stone) current.stone += action.stone;
@@ -59,11 +62,13 @@ const selectResourcesByTime = createSelector(
 
     const applyContinuousActions = (actions) => {
       actions.forEach(action => {
-        ['food', 'wood', 'stone', 'gold'].forEach(type => {
-          if (action[type]) {
-            increments[type] += action[type];
-          }
-        });
+        if (action.isContinuous) {
+          ['food', 'wood', 'stone', 'gold'].forEach(type => {
+            if (action[type]) {
+              increments[type] += action[type];
+            }
+          });
+        }
         actionsInProgress.push({
           ...action,
           endTime: action.timeOffset + action.time,
@@ -74,11 +79,19 @@ const selectResourcesByTime = createSelector(
     };
 
     const applyCompletedResearchActions = () => {
-      actionsInProgress.forEach(actionInProgress => {
-        if (actionInProgress.isResearch && actionInProgress.endTime === currentTime) {
-          current.completedResearch.push(actionInProgress.key);
+      actionsInProgress.forEach(action => {
+        if (action.isResearch && action.endTime === currentTime) {
+          current.completedResearch.push(action.key);
         }
       });
+    };
+
+    const applyCompletedUnitActions = () => {
+      actionsInProgress.forEach(action => {
+        if (action.produces && action.endTime === currentTime) {
+          current.completedUnits.push(action.produces);
+        }
+      })
     };
 
     const removeFinishedContinuousActions = () => {
@@ -106,21 +119,15 @@ const selectResourcesByTime = createSelector(
 
     while (currentTime <= constants.maxTime) {
       const actionsForCurrentTime = getActionsForCurrentTime();
-      const continuousActions = [];
-      const instantActions = [];
 
-      actionsForCurrentTime.forEach(action => {
-        if (action.isContinuous || action.isResearch) continuousActions.push(action);
-        else instantActions.push(action);
-      });
-
-      applyInstantActions(instantActions);
+      processInstantResources(actionsForCurrentTime);
 
       applyCompletedResearchActions();
+      applyCompletedUnitActions();
 
       resourcesByTime[currentTime] = JSON.parse(JSON.stringify(current));
 
-      applyContinuousActions(continuousActions);
+      applyContinuousActions(actionsForCurrentTime);
 
       removeFinishedContinuousActions();
 
