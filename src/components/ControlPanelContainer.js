@@ -11,6 +11,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = ({
   setActionDuration: actions.actions.setTime,
+  deleteAction: actions.actions.remove,
 });
 
 export default connect(

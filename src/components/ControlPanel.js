@@ -16,6 +16,7 @@ const ControlPanel = ({
   selectedAction,
   selectedActionTiming,
   setActionDuration,
+  deleteAction,
 }) => {
   const renderDuration = () => (
     selectedAction.isContinuous ?
@@ -46,6 +47,17 @@ const ControlPanel = ({
         {renderResource('Wood', selectedAction.wood, selectedAction.isContinuous)}
         {renderResource('Stone', selectedAction.stone, selectedAction.isContinuous)}
         {renderResource('Gold', selectedAction.gold, selectedAction.isContinuous)}
+        <br />
+        <button
+          style={{
+            color: 'red',
+            borderColor: 'red',
+            cursor: 'pointer',
+          }}
+          onClick={() => deleteAction(selectedAction.id)}
+        >
+          Delete
+        </button>
       </>
     )
   };

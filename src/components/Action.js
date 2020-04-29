@@ -4,7 +4,6 @@ import constants from '../constants';
 
 const Action = ({
   action,
-  remove,
   select,
 }) => {
   return (
@@ -22,7 +21,6 @@ const Action = ({
         style={{
           margin: 0,
         }}
-        onDoubleClick={remove}
       >
         {action.name}
       </h4>

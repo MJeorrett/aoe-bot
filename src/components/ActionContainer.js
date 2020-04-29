@@ -15,7 +15,6 @@ const mapStateToProps = () => {
 };
 
 const mapDispatchToProps = (dispatch, { id }) => ({
-  remove: () => dispatch(actions.actions.remove(id)),
   select: () => dispatch(actions.control.setSelectedAction(id)),
 });
 
