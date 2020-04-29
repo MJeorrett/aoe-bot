@@ -11,41 +11,25 @@ const Resources = ({
   const resources = resourcesByTime[time];
   const round = false;
 
-  const renderContent = () => {
-    if (time < 0) {
-      return (
-        <>
-          <p>Food: ---; Wood: ---; Stone: ---; Gold: ---;</p>
-          <p>Completed Research: []</p>
-        </>
-      );
-    }
-
+  if (time < 0) {
     return (
       <>
-        <p>
-          {renderResource(resources.food, "Food", round) + ' ' +
-            renderResource(resources.wood, "Wood", round) + ' ' +
-            renderResource(resources.stone, "Stone", round) + ' ' +
-            renderResource(resources.gold, "Gold", round)}
-        </p>
-        <p style={{ marginBottom: 0 }}>Completed Research:{resources.completedResearch.length === 0 && ' None'}</p>
-        {resources.completedResearch.length > 0 &&
-          (
-            <ul>
-              {resources.completedResearch.map(cr => (
-                <li>{cr}</li>
-              ))}
-            </ul>
-          )}
+        <h4 style={{ margin: 0, marginBottom: '0.5em' }}>Food: ---; Wood: ---; Stone: ---; Gold: ---;</h4>
+        <h4 style={{ margin: 0 }}>Completed Research: []</h4>
       </>
     );
-  };
+  }
 
   return (
-    <h4 style={{ marginTop: 0 }}>
-      {renderContent()}
-    </h4>
+    <>
+      <h4 style={{ margin: 0, marginBottom: '0.5em' }}>
+        {renderResource(resources.food, "Food", round) + ' ' +
+          renderResource(resources.wood, "Wood", round) + ' ' +
+          renderResource(resources.stone, "Stone", round) + ' ' +
+          renderResource(resources.gold, "Gold", round)}
+      </h4>
+      <h4 style={{ margin: 0 }}>Completed Research: {resources.completedResearch.join('; ')}</h4>
+    </>
   );
 };
 

@@ -11,6 +11,20 @@ import ControlPanelContainer from './components/ControlPanelContainer';
 
 seedStore(store);
 
+const AppPanel = ({
+  style,
+  children,
+}) => (
+  <div style={{
+    margin: '1em',
+    padding: '1em',
+    border: '1px solid dodgerblue',
+    ...style,
+  }}>
+    {children}
+  </div>
+);
+
 function App() {
   return (
     <Provider store={store}>
@@ -18,20 +32,22 @@ function App() {
       <div style={{
         display: 'flex',
       }}>
-        <div style={{
-          overflowX: 'scroll',
-          margin: '1em',
-          marginRight: 0,
-          padding: '1em',
-          border: '1px solid dodgerblue',
-        }}>
-          <ResourcesContainer />
-          <TimelineContainer />
-          <UnitsContainer />
+        <div style={{ minWidth: 0 }}>
+          <AppPanel style={{ marginRight: 0, overflowX: 'scroll' }}>
+            <ResourcesContainer />
+          </AppPanel>
+          <AppPanel style={{
+            overflowX: 'scroll',
+            marginRight: 0,
+
+          }}>
+            <TimelineContainer />
+            <UnitsContainer />
+          </AppPanel>
         </div>
-        <div style={{ margin: '1em' }}>
+        <AppPanel style={{ minWidth: '250px' }}>
           <ControlPanelContainer />
-        </div>
+        </AppPanel>
       </div>
     </Provider>
   );
