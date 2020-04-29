@@ -14,14 +14,34 @@ const renderResource = (name, value, isContinuous) => {
 
 const ControlPanel = ({
   selectedAction,
+  selectedActionTiming,
+  setActionDuration,
 }) => {
+  const renderDuration = () => (
+    selectedAction.isContinuous ?
+      <input
+        style={{
+          minWidth: '0px',
+        }}
+        type="number"
+        min="10"
+        max="1000"
+        step="1"
+        value={selectedActionTiming.time}
+        onChange={event => {
+          setActionDuration(selectedAction.id, parseInt(event.target.value))
+        }}
+      /> :
+      selectedAction.time
+  );
+
   const renderContent = () => {
     if (!selectedAction) return <p style={{ margin: 0 }}>Select an action...</p>;
 
     return (
       <>
         <h3 style={{ marginTop: 0 }}>Action: {selectedAction.name}</h3>
-        <p>Duration: {selectedAction.time} seconds</p>
+        <p>Duration: {renderDuration()} seconds</p>
         {renderResource('Food', selectedAction.food, selectedAction.isContinuous)}
         {renderResource('Wood', selectedAction.wood, selectedAction.isContinuous)}
         {renderResource('Stone', selectedAction.stone, selectedAction.isContinuous)}

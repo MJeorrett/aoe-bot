@@ -2,7 +2,7 @@ import React from 'react';
 
 import constants from '../constants';
 
-const SimpleAction = ({
+const Action = ({
   action,
   remove,
   select,
@@ -34,4 +34,4 @@ const SimpleAction = ({
   );
 };
 
-export default SimpleAction;
+export default Action;

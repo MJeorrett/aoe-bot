@@ -71,6 +71,11 @@ export const selectors = {
       controlSlice.selectors.selectedActionId,
       actionsSlice.selectors.makeSelectActionById(),
     ),
+    selectedActionTiming: createSelector(
+      state => state,
+      controlSlice.selectors.selectedActionId,
+      timingSlice.selectors.makeSelectOffsetAndDurationForAction(),
+    ),
   },
   units: {
     ...unitsSlice.selectors,

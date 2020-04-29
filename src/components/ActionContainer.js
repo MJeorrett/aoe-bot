@@ -1,10 +1,8 @@
-import React from 'react';
 import { connect } from 'react-redux';
 
 import { actions, selectors } from '../store';
 
-import ContinuousActionContainer from './ContinuousActionContainer';
-import SimpleAction from './SimpleAction';
+import Action from './Action';
 
 const mapStateToProps = () => {
   const selectActionById = selectors.actions.makeSelectActionById();
@@ -24,30 +22,4 @@ const mapDispatchToProps = (dispatch, { id }) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(({
-  unitId,
-  action,
-  timing,
-  remove,
-  select,
-}) => {
-  // TODO: think we can remove unitId here.
-  if (action.isContinuous) return (
-    <ContinuousActionContainer
-      key={action.id}
-      unitId={unitId}
-      action={action}
-      remove={remove}
-      select={select}
-    />
-  );
-  return (
-    <SimpleAction
-      key={action.id}
-      action={action}
-      timing={timing}
-      remove={remove}
-      select={select}
-    />
-  );
-});
+)(Action);

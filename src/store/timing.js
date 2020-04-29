@@ -50,7 +50,7 @@ const slice = createSlice({
     childParent: {},
   },
   reducers: {
-    setDuration: (state, { payload : { itemId, newDuration } }) => {
+    setDuration: (state, { payload: { itemId, newDuration } }) => {
       const item = state.items[itemId];
       const deltaTime = newDuration - item.duration;
       item.duration = newDuration;
@@ -93,7 +93,7 @@ const slice = createSlice({
     [actionsSlice.internalActions.remove]: (state, { payload: { actionId } }) => {
       const deltaTime = -state.items[actionId].duration;
       updateChildOffsets(state, actionId, deltaTime);
-      
+
       state.actionIds = state.actionIds.filter(id => id !== actionId);
       delete state.items[actionId];
       removeActionFromParentChildTree(state, actionId);
@@ -114,11 +114,17 @@ export const actions = {
 const selectTimingState = state => state[slice.name];
 
 // TODO: make consumers use duration and offset
-const selectOffsetAndDuration = (state, actionId) => ({
-  id: actionId,
-  time: state.items[actionId].duration,
-  timeOffset: state.items[actionId].offset,
-});
+const selectOffsetAndDuration = (state, actionId) => {
+  const actionTiming = state.items[actionId];
+
+  if (!actionTiming) return undefined;
+  
+  return {
+    id: actionId,
+    time: actionTiming.duration,
+    timeOffset: actionTiming.offset,
+  };
+};
 
 export const selectors = {
   all: createSelector(
