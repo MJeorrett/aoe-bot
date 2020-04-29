@@ -99,8 +99,10 @@ const selectResourcesByTime = createSelector(
         actionsInProgress.length > 0 &&
         actionsInProgress[0].endTime === currentTime
       ) {
-        const actionInProgress = actionsInProgress.shift();
-        removeIncrementsForEndedAction(actionInProgress);
+        const action = actionsInProgress.shift();
+        if (action.isContinuous) {
+          removeIncrementsForEndedAction(action);
+        }
       }
     };
 
