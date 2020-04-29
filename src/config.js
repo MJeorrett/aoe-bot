@@ -1,5 +1,6 @@
 // TODO: Change unitKeys -> unitTypes.
 export const unitKeys = {
+  villager: 'villager',
   townCenter: 'townCenter',
   house: 'house',
   mill: 'mill',
@@ -11,7 +12,10 @@ export const unitKeys = {
   palisadeWall: 'palisadeWall',
   palisadeGate: 'palisadeGate',
   outpost: 'outpost',
-  villager: 'villager',
+  archeryRange: 'archeryRange',
+  stable: 'stable',
+  market: 'market',
+  blacksmith: 'blacksmith',
 };
 
 const researchActionKeys = {
@@ -58,6 +62,15 @@ export const units = {
         food: 800,
         gold: 200,
         isResearch: true,
+        prerequisiteBuildings: {
+          keys: [
+            unitKeys.archeryRange,
+            unitKeys.stable,
+            unitKeys.market,
+            unitKeys.blacksmith,
+          ],
+          count: 2,
+        },
         prerequisiteResearch: researchActionKeys.advanceToFeudalAge,
       },
       [researchActionKeys.advanceToImperialAge]: {
@@ -103,6 +116,18 @@ export const units = {
   },
   [unitKeys.outpost]: {
     name: 'Outpost',
+  },
+  [unitKeys.archeryRange]: {
+    name: 'Archery Range',
+  },
+  [unitKeys.stable]: {
+    name: 'Stable',
+  },
+  [unitKeys.market]: {
+    name: 'Market',
+  },
+  [unitKeys.blacksmith]: {
+    name: 'Blacksmith',
   },
   [unitKeys.villager]: {
     name: 'Villager',
@@ -198,6 +223,42 @@ export const units = {
         wood: -25,
         stone: 5,
         produces: unitKeys.outpost,
+      },
+      buildArcheryRange: {
+        name: 'Build Archery Range',
+        time: 50,
+        wood: -175,
+        prerequisiteBuildings: {
+          keys: [unitKeys.barracks],
+          count: 1,
+        },
+        produces: unitKeys.archeryRange,
+      },
+      buildStables: {
+        name: 'Build Stables',
+        time: 50,
+        wood: -175,
+        prerequisiteBuildings: {
+          keys: [unitKeys.barracks],
+          count: 1,
+        },
+        produces: unitKeys.stable,
+      },
+      buildMarket: {
+        name: 'Build Market',
+        time: 60,
+        wood: -175,
+        prerequisiteBuildings: {
+          keys: [unitKeys.mill],
+          count: 1,
+        },
+        produces: unitKeys.market,
+      },
+      buildBlacksmith: {
+        name: 'Build Blacksmith',
+        time: 40,
+        wood: -150,
+        produces: unitKeys.blacksmith,
       },
     },
   },
