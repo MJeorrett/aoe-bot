@@ -4,9 +4,13 @@ import { selectors } from '../store';
 
 import ActionSelector from './ActionSelector';
 
-const mapStateToProps = state => ({
-  resourcesByTime: selectors.meta.resourcesByTime(state),
-});
+const mapStateToProps = (state, { timeOffset }) => {
+  const resourcesByTime = selectors.meta.resourcesByTime(state);
+
+  return {
+    currentResources: resourcesByTime[timeOffset],
+  };
+};
 
 export default connect(
   mapStateToProps,

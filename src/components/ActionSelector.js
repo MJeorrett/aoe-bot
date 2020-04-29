@@ -2,27 +2,30 @@ import React, { useState } from 'react';
 
 import * as config from '../config';
 
-const ActionSelector = ({
-  unitKey,
-  onSelect,
-  resourcesByTime,
-  timeOffset,
-}) => {
-  const [selectedAction, setSelectedAction] = useState('');
-  
-  const actionConfigs = config.units[unitKey].actions;  
-  const allActionKeys = actionConfigs ? Object.keys(actionConfigs) || [] : [];
-
-  const actionKeys = allActionKeys.filter(actionKey => {
+const filterActionKeyssByPrerequisites = (actionKeys, actionConfigs, currentResources) => {
+  return actionKeys.filter(actionKey => {
     const actionConfig = actionConfigs[actionKey];
     if (actionConfig.prerequisiteBuildings) {
-      const completedRequiredBuildings = resourcesByTime[timeOffset].completedUnits
+      const completedRequiredBuildings = currentResources.completedUnits
         .filter(completedBuildingKey => actionConfig.prerequisiteBuildings.keys.includes(completedBuildingKey));
       
       return completedRequiredBuildings.length >= actionConfig.prerequisiteBuildings.count;
     }
     return true;
   });
+}
+
+const ActionSelector = ({
+  unitKey,
+  onSelect,
+  currentResources,
+}) => {
+  const [selectedAction, setSelectedAction] = useState('');
+  
+  const actionConfigs = config.units[unitKey].actions;  
+  const allActionKeys = actionConfigs ? Object.keys(actionConfigs) || [] : [];
+
+  const actionKeys = filterActionKeyssByPrerequisites(allActionKeys, actionConfigs, currentResources);
 
   const handleSelect = event => {
     onSelect(actionConfigs[event.target.value]);
