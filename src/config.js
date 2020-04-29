@@ -232,6 +232,7 @@ export const units = {
           keys: [unitKeys.barracks],
           count: 1,
         },
+        prerequisiteResearch: researchActionKeys.advanceToFeudalAge,
         produces: unitKeys.archeryRange,
       },
       buildStables: {
@@ -242,6 +243,7 @@ export const units = {
           keys: [unitKeys.barracks],
           count: 1,
         },
+        prerequisiteResearch: researchActionKeys.advanceToFeudalAge,
         produces: unitKeys.stable,
       },
       buildMarket: {
@@ -252,12 +254,14 @@ export const units = {
           keys: [unitKeys.mill],
           count: 1,
         },
+        prerequisiteResearch: researchActionKeys.advanceToFeudalAge,
         produces: unitKeys.market,
       },
       buildBlacksmith: {
         name: 'Build Blacksmith',
         time: 40,
         wood: -150,
+        prerequisiteResearch: researchActionKeys.advanceToFeudalAge,
         produces: unitKeys.blacksmith,
       },
     },

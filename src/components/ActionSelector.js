@@ -9,7 +9,10 @@ const filterActionKeyssByPrerequisites = (actionKeys, actionConfigs, currentReso
       const completedRequiredBuildings = currentResources.completedUnits
         .filter(completedBuildingKey => actionConfig.prerequisiteBuildings.keys.includes(completedBuildingKey));
       
-      return completedRequiredBuildings.length >= actionConfig.prerequisiteBuildings.count;
+      if (completedRequiredBuildings.length < actionConfig.prerequisiteBuildings.count) return false;
+    }
+    if (actionConfig.prerequisiteResearch) {
+      if (!currentResources.completedResearch.includes(actionConfig.prerequisiteResearch)) return false;
     }
     return true;
   });
