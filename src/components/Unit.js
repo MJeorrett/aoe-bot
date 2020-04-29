@@ -10,7 +10,6 @@ const Unit = ({
   timing,
   actionIds,
   addAction,
-  deleteUnit,
   select,
 }) => {
   const handleAddAction = actionKey => {
@@ -24,17 +23,6 @@ const Unit = ({
         marginBottom: '10px',
       }}
     >
-      <button
-        onClick={deleteUnit}
-        style={{
-          color: parentActionId ? 'grey' : 'red',
-          borderColor: parentActionId ? 'grey' : 'red',
-          cursor: 'default',
-        }}
-        disabled={parentActionId}
-      >
-        X
-      </button>
       <h3
         style={{
           minWidth: '150px',
