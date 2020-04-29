@@ -31,6 +31,7 @@ const mapDispatchToProps = (dispatch, { id }) => ({
     }
   },
   deleteUnit: () => dispatch(actions.units.remove(id)),
+  select: () => dispatch(actions.control.setSelectedUnit(id)),
 });
 
 export default connect(
