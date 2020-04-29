@@ -25,13 +25,19 @@ const Resources = ({
       <>
         <p>
           {renderResource(resources.food, "Food", round) + ' ' +
-          renderResource(resources.wood, "Wood", round) + ' ' +
-          renderResource(resources.stone, "Stone", round) + ' ' +
-          renderResource(resources.gold, "Gold", round)}
+            renderResource(resources.wood, "Wood", round) + ' ' +
+            renderResource(resources.stone, "Stone", round) + ' ' +
+            renderResource(resources.gold, "Gold", round)}
         </p>
-        <p>
-          Completed Research: {JSON.stringify(resources.completedResearch)}
-        </p>
+        <p style={{ marginBottom: 0 }}>Completed Research:{resources.completedResearch.length === 0 && ' None'}</p>
+        {resources.completedResearch.length > 0 &&
+          (
+            <ul>
+              {resources.completedResearch.map(cr => (
+                <li>{cr}</li>
+              ))}
+            </ul>
+          )}
       </>
     );
   };
