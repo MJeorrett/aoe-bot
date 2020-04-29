@@ -14,15 +14,25 @@ const Resources = ({
   const renderContent = () => {
     if (time < 0) {
       return (
-        'Food: ---; Wood: ---; Stone: ---; Gold: ---;'
+        <>
+          <p>Food: ---; Wood: ---; Stone: ---; Gold: ---;</p>
+          <p>Completed Research: []</p>
+        </>
       );
     }
 
     return (
-      renderResource(resources.food, "Food", round) + ' ' +
-      renderResource(resources.wood, "Wood", round) + ' ' +
-      renderResource(resources.stone, "Stone", round) + ' ' +
-      renderResource(resources.gold, "Gold", round)
+      <>
+        <p>
+          {renderResource(resources.food, "Food", round) + ' ' +
+          renderResource(resources.wood, "Wood", round) + ' ' +
+          renderResource(resources.stone, "Stone", round) + ' ' +
+          renderResource(resources.gold, "Gold", round)}
+        </p>
+        <p>
+          Completed Research: {JSON.stringify(resources.completedResearch)}
+        </p>
+      </>
     );
   };
 

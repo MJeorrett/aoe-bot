@@ -14,6 +14,12 @@ export const unitKeys = {
   villager: 'villager',
 };
 
+const researchActionKeys = {
+  advanceToFeudalAge: 'advanceToFeudalAge',
+  advanceToCastleAge: 'advanceToCastleAge',
+  advanceToImperialAge: 'advanceToImperialAge',
+};
+
 export const units = {
   [unitKeys.townCenter]: {
     name: 'Town Center',
@@ -28,7 +34,42 @@ export const units = {
         food: -50,
         produces: unitKeys.villager,
       },
-    }
+      [researchActionKeys.advanceToFeudalAge]: {
+        name: 'Advance to Feudal Age',
+        key: researchActionKeys.advanceToFeudalAge,
+        time: 130,
+        food: -500,
+        isResearch: true,
+        prerequisiteBuildings: {
+          keys: [
+            unitKeys.barracks,
+            unitKeys.mill,
+            unitKeys.lumberCamp,
+            unitKeys.miningCamp,
+            unitKeys.dock,
+          ],
+          count: 2,
+        },
+      },
+      [researchActionKeys.advanceToCastleAge]: {
+        name: 'Advance to Castle Age',
+        key: researchActionKeys.advanceToCastleAge,
+        time: 160,
+        food: 800,
+        gold: 200,
+        isResearch: true,
+        prerequisiteResearch: researchActionKeys.advanceToFeudalAge,
+      },
+      [researchActionKeys.advanceToImperialAge]: {
+        name: 'Advance to Imperial Age',
+        key: researchActionKeys.advanceToImperialAge,
+        time: 190,
+        food: 1000,
+        gold: 800,
+        isResearch: true,
+        prerequisiteResearch: researchActionKeys.advanceToCastleAge,
+      },
+    },
   },
   [unitKeys.house]: {
     name: 'House',

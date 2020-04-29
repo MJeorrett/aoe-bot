@@ -20,6 +20,7 @@ const selectResourcesByTime = createSelector(
       wood: constants.startingWood,
       stone: constants.startingStone,
       gold: constants.startingGold,
+      completedResearch: [],
     };
 
     const increments = {
@@ -29,19 +30,9 @@ const selectResourcesByTime = createSelector(
       gold: 0,
     };
 
-    let timeOffset = 0;
-    const actionEnds = [];
+    let currentTime = 0;
+    const actionsInProgress = [];
     const resourcesByTime = {};
-
-    const updateResourceIncrement = (type, action) => {
-      if (action[type]) {
-        increments[type] += action[type];
-        actionEnds.push({
-          [type]: action[type],
-          timeOffset: action.timeOffset + action.time,
-        });
-      }
-    };
 
     const removeIncrementsForEndedAction = (actionEnd) => {
       if (actionEnd.food) increments.food -= actionEnd.food;
@@ -68,22 +59,35 @@ const selectResourcesByTime = createSelector(
 
     const applyContinuousActions = (actions) => {
       actions.forEach(action => {
-        updateResourceIncrement('food', action);
-        updateResourceIncrement('wood', action);
-        updateResourceIncrement('stone', action);
-        updateResourceIncrement('gold', action);
+        ['food', 'wood', 'stone', 'gold'].forEach(type => {
+          if (action[type]) {
+            increments[type] += action[type];
+          }
+        });
+        actionsInProgress.push({
+          ...action,
+          endTime: action.timeOffset + action.time,
+        });
       });
 
-      actionEnds.sort((a, b) => a.timeOffset - b.timeOffset);
+      actionsInProgress.sort((a, b) => a.endTime - b.endTime);
+    };
+
+    const applyCompletedResearchActions = () => {
+      actionsInProgress.forEach(actionInProgress => {
+        if (actionInProgress.isResearch && actionInProgress.endTime === currentTime) {
+          current.completedResearch.push(actionInProgress.key);
+        }
+      });
     };
 
     const removeFinishedContinuousActions = () => {
       while (
-        actionEnds.length > 0 &&
-        actionEnds[0].timeOffset === timeOffset
+        actionsInProgress.length > 0 &&
+        actionsInProgress[0].endTime === currentTime
       ) {
-        const actionEnd = actionEnds.shift();
-        removeIncrementsForEndedAction(actionEnd);
+        const actionInProgress = actionsInProgress.shift();
+        removeIncrementsForEndedAction(actionInProgress);
       }
     };
 
@@ -92,7 +96,7 @@ const selectResourcesByTime = createSelector(
 
       while (
         actions.length > 0 &&
-        actions[0].timeOffset === timeOffset
+        actions[0].timeOffset === currentTime
       ) {
         actionsForCurrentTime.push(actions.shift());
       }
@@ -100,19 +104,21 @@ const selectResourcesByTime = createSelector(
       return actionsForCurrentTime;
     }
 
-    while (timeOffset <= constants.maxTime) {
+    while (currentTime <= constants.maxTime) {
       const actionsForCurrentTime = getActionsForCurrentTime();
       const continuousActions = [];
       const instantActions = [];
 
       actionsForCurrentTime.forEach(action => {
-        if (action.isContinuous) continuousActions.push(action);
+        if (action.isContinuous || action.isResearch) continuousActions.push(action);
         else instantActions.push(action);
-      })
+      });
 
       applyInstantActions(instantActions);
 
-      resourcesByTime[timeOffset] = Object.assign({}, current);
+      applyCompletedResearchActions();
+
+      resourcesByTime[currentTime] = JSON.parse(JSON.stringify(current));
 
       applyContinuousActions(continuousActions);
 
@@ -120,7 +126,7 @@ const selectResourcesByTime = createSelector(
 
       applyContinuousActionIncrements();
 
-      timeOffset++;
+      currentTime++;
     }
 
     return resourcesByTime;
