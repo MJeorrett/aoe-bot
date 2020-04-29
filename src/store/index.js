@@ -65,18 +65,7 @@ export const actions = {
 };
 
 export const selectors = {
-  control: {
-    selectedAction: createSelector(
-      state => state,
-      controlSlice.selectors.selectedActionId,
-      actionsSlice.selectors.makeSelectActionById(),
-    ),
-    selectedActionTiming: createSelector(
-      state => state,
-      controlSlice.selectors.selectedActionId,
-      timingSlice.selectors.makeSelectOffsetAndDurationForAction(),
-    ),
-  },
+  control: controlSlice.selectors,
   units: {
     ...unitsSlice.selectors,
     makeSelectParentActionIdById: actionUnitsSlice.selectors.makeSelectParentActionForUnit,

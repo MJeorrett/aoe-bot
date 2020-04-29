@@ -1,20 +1,13 @@
 import { connect } from 'react-redux';
 
-import { actions, selectors } from '../store';
+import { selectors } from '../store';
 
 import ControlPanel from './ControlPanel';
 
 const mapStateToProps = state => ({
-  selectedAction: selectors.control.selectedAction(state),
-  selectedActionTiming: selectors.control.selectedActionTiming(state),
-});
-
-const mapDispatchToProps = ({
-  setActionDuration: actions.actions.setTime,
-  deleteAction: actions.actions.remove,
+  selectedActionId: selectors.control.selectedActionId(state),
 });
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+  mapStateToProps
 )(ControlPanel);
