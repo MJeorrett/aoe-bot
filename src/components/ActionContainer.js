@@ -11,6 +11,7 @@ const mapStateToProps = () => {
   return (state, { id }) => ({
     action: selectActionById(state, id),
     timing: selectTimingById(state, id),
+    selectedActionId: selectors.control.selectedActionId(state),
   });
 };
 

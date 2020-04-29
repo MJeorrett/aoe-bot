@@ -15,6 +15,8 @@ const mapStateToProps = () => {
     parentActionId: selectParentActionId(state, id),
     timing: selectTimingById(state, id),
     actionIds: selectActionIdsForUnit(state, id),
+    selectedUnitId: selectors.control.selectedUnitId(state),
+    selectedActionId: selectors.control.selectedActionId(state),
   });
 };
 

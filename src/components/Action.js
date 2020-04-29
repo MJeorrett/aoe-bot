@@ -5,16 +5,19 @@ import constants from '../constants';
 const Action = ({
   action,
   select,
+  selectedActionId,
 }) => {
   return (
     <div
       style={{
-        border: '0.5px solid green',
+        border: selectedActionId === action.id ? '2px solid dodgerblue' : '0.5px solid green',
         color: 'green',
         backgroundColor: 'lightgreen',
         minWidth: `${action.time * constants.secondWidth}px`,
         maxWidth: `${action.time * constants.secondWidth}px`,
         cursor: 'pointer',
+        height: '40px',
+        paddingLeft: '0.5em',
       }}
       onClick={select}
     >

@@ -7,6 +7,8 @@ const Unit = ({
   unit,
   parentActionId,
   timing,
+  selectedUnitId,
+  selectedActionId,
   actionIds,
   addAction,
   select,
@@ -23,9 +25,15 @@ const Unit = ({
       <h3
         style={{
           minWidth: '150px',
-          height: '35px',
+          height: '40px',
           margin: 0,
+          padding: '0.3em',
           backgroundColor: 'lightGrey',
+          border: selectedUnitId === unit.id ?
+            '2px solid dodgerblue' :
+            selectedActionId === parentActionId ?
+              '1px solid dodgerblue' :
+              null,
           cursor: 'pointer',
         }}
         onClick={select}
