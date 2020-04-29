@@ -25,8 +25,7 @@ const ControlPanel = ({
           minWidth: '0px',
         }}
         type="number"
-        min="10"
-        max="1000"
+        min="1"
         step="1"
         value={actionTiming.time}
         onChange={event => setActionDuration(parseInt(event.target.value))}

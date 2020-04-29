@@ -14,10 +14,12 @@ const Action = ({
         color: 'green',
         backgroundColor: 'lightgreen',
         minWidth: `${action.time * constants.secondWidth}px`,
+        width: `${action.time * constants.secondWidth}px`,
         maxWidth: `${action.time * constants.secondWidth}px`,
         cursor: 'pointer',
         height: '40px',
-        paddingLeft: '0.5em',
+        paddingLeft: action.time > 1 ? constants.secondWidth : null,
+        overflow: 'hidden'
       }}
       onClick={select}
     >
