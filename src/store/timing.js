@@ -20,16 +20,25 @@ const addChildToParent = (state, parentId, childId) => {
   state.childParent[childId] = parentId;
 };
 
-const removeParentChildRelationships = (state, childId) => {
-  const parentId = state.childParent[childId];
+const removeActionFromParentChildTree = (state, actionId) => {
+  const parentId = state.childParent[actionId];
+
+  // remove from parent's children
   if (parentId) {
-    state.parentChildren[parentId] = state.parentChildren[parentId].filter(id => id !== childId);
+    state.parentChildren[parentId] = state.parentChildren[parentId].filter(id => id !== actionId);
   }
-  if (state.parentChildren[childId]) {
-    state.parentChildren[childId].forEach(itemId => state.childParent[itemId] = null);
+
+  // set action's children parents to the action's parent
+  if (state.parentChildren[actionId]) {
+    state.parentChildren[actionId].forEach(childId => {
+      state.childParent[childId] = parentId;
+      state.parentChildren[parentId].push(childId);
+    });
+
+    delete state.parentChildren[actionId];
   }
-  delete state.childParent[childId];
-  delete state.parentChildren[childId];
+
+  delete state.childParent[actionId];
 };
 
 const slice = createSlice({
@@ -65,7 +74,7 @@ const slice = createSlice({
     },
     [unitsSlice.internalActions.remove]: (state, { payload: { unitId } }) => {
       delete state.items[unitId];
-      removeParentChildRelationships(state, unitId);
+      removeActionFromParentChildTree(state, unitId);
     },
     [actionsSlice.internalActions.add]: (state, { payload: { unitId, action, prevActionId } }) => {
       state.actionIds.push(action.id);
@@ -84,10 +93,10 @@ const slice = createSlice({
     [actionsSlice.internalActions.remove]: (state, { payload: { actionId } }) => {
       const deltaTime = -state.items[actionId].duration;
       updateChildOffsets(state, actionId, deltaTime);
-
+      
       state.actionIds = state.actionIds.filter(id => id !== actionId);
       delete state.items[actionId];
-      removeParentChildRelationships(state, actionId);
+      removeActionFromParentChildTree(state, actionId);
     },
   },
 });
