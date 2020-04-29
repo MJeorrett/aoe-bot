@@ -3,7 +3,6 @@ import generateId from '../utils/generateId';
 export const createAction = (actionConfig, forceId) => {
   return {
     id: forceId || generateId(),
-    typeId: actionConfig.typeId,
     name: actionConfig.name,
     time: actionConfig.isContinuous ? 25 : actionConfig.time,
     isContinuous: !!actionConfig.isContinuous,
