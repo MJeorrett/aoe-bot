@@ -6,6 +6,7 @@ const ContinuousAction = ({
   action,
   setTime,
   remove,
+  select
 }) => {
   const [cachedTime, setCachedTime] = useState(action.time);
 
@@ -18,6 +19,7 @@ const ContinuousAction = ({
         minWidth: `${action.time * constants.secondWidth}px`,
         maxWidth: `${action.time * constants.secondWidth}px`,
       }}
+      onClick={select}
       onDoubleClick={remove}
     >
       <h4 style={{

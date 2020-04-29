@@ -5,15 +5,19 @@ import constants from '../constants';
 const SimpleAction = ({
   action,
   remove,
+  select,
 }) => {
   return (
-    <div style={{
-      border: '0.5px solid green',
-      color: 'green',
-      backgroundColor: 'lightgreen',
-      minWidth: `${action.time * constants.secondWidth}px`,
-      maxWidth: `${action.time * constants.secondWidth}px`,
-    }}>
+    <div
+      style={{
+        border: '0.5px solid green',
+        color: 'green',
+        backgroundColor: 'lightgreen',
+        minWidth: `${action.time * constants.secondWidth}px`,
+        maxWidth: `${action.time * constants.secondWidth}px`,
+      }}
+      onClick={select}
+    >
       <h4
         style={{
           margin: 0,

@@ -1,5 +1,6 @@
 import { configureStore, createSelector } from '@reduxjs/toolkit';
 
+import * as controlSlice from './control';
 import * as unitsSlice from './units';
 import * as actionsSlice from './actions';
 import * as timingSlice from './timing';
@@ -11,6 +12,7 @@ import selectResourcesByTime from './selectResourcesByTime';
 
 const store = configureStore({
   reducer: {
+    [controlSlice.sliceName]: controlSlice.reducer,
     [unitsSlice.sliceName]: unitsSlice.reducer,
     [actionsSlice.sliceName]: actionsSlice.reducer,
     [timingSlice.sliceName]: timingSlice.reducer,
@@ -38,6 +40,7 @@ const cascadeRemoveAction = (dispatch, state, actionId) => {
 }
 
 export const actions = {
+  control: controlSlice.actions,
   units: {
     ...unitsSlice.actions,
     remove: unitId => (dispatch, getState) => {
@@ -62,6 +65,13 @@ export const actions = {
 };
 
 export const selectors = {
+  control: {
+    selectedAction: createSelector(
+      state => state,
+      controlSlice.selectors.selectedActionId,
+      actionsSlice.selectors.makeSelectActionById(),
+    ),
+  },
   units: {
     ...unitsSlice.selectors,
     makeSelectParentActionIdById: actionUnitsSlice.selectors.makeSelectParentActionForUnit,

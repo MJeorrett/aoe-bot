@@ -1,29 +1,34 @@
 import React from 'react';
 
 const renderResource = (value, title, round) => (
-  <span>{title}: {round ? Math.floor(value) : value}; </span>
+  `${title}: ${round ? Math.floor(value) : value};`
 );
 
 const Resources = ({
   resourcesByTime,
   time,
 }) => {
-  if (time < 0) {
-    return (
-      <h4>Food: ---; Wood: ---; Stone: ---; Gold: ---</h4>
-    );
-  }
-
   const resources = resourcesByTime[time];
-
   const round = false;
 
+  const renderContent = () => {
+    if (time < 0) {
+      return (
+        'Food: ---; Wood: ---; Stone: ---; Gold: ---;'
+      );
+    }
+
+    return (
+      renderResource(resources.food, "Food", round) + ' ' +
+      renderResource(resources.wood, "Wood", round) + ' ' +
+      renderResource(resources.stone, "Stone", round) + ' ' +
+      renderResource(resources.gold, "Gold", round)
+    );
+  };
+
   return (
-    <h4>
-      {renderResource(resources.food, "Food", round)}
-      {renderResource(resources.wood, "Wood", round)}
-      {renderResource(resources.stone, "Stone", round)}
-      {renderResource(resources.gold, "Gold", round)}
+    <h4 style={{ marginTop: 0 }}>
+      {renderContent()}
     </h4>
   );
 };

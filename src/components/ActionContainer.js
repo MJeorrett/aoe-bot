@@ -18,6 +18,7 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch, { id }) => ({
   remove: () => dispatch(actions.actions.remove(id)),
+  select: () => dispatch(actions.control.setSelectedAction(id)),
 });
 
 export default connect(
@@ -28,8 +29,25 @@ export default connect(
   action,
   timing,
   remove,
+  select,
 }) => {
   // TODO: think we can remove unitId here.
-  if (action.isContinuous) return <ContinuousActionContainer key={action.id} unitId={unitId} action={action} remove={remove} />;
-  return <SimpleAction key={action.id} action={action} timing={timing} remove={remove} />;
+  if (action.isContinuous) return (
+    <ContinuousActionContainer
+      key={action.id}
+      unitId={unitId}
+      action={action}
+      remove={remove}
+      select={select}
+    />
+  );
+  return (
+    <SimpleAction
+      key={action.id}
+      action={action}
+      timing={timing}
+      remove={remove}
+      select={select}
+    />
+  );
 });
