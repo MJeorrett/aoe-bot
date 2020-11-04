@@ -1,5 +1,5 @@
 # Age of Empires II Build Order Tool
-This is a simple client only app to test build orders out quickly.
+This is a simple client only app to test build orders out quickly.  It is definitely more useful as a coding excercise than to actually help with figuring out Age of Empires stratgies!
 
 ## Pre-requisites
 In order to run this you need the following:
